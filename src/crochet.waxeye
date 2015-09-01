@@ -1,0 +1,29 @@
+# from src folder command prompt  -  $ waxeye -g javscript . crochet.waxeye
+# this will generate the parser.js file in the src folder
+
+# Crochet pattern language
+
+# A pattern is a sequence of rows or rounds or reprow
+patt <- ws row * (ws row)
+
+# A row/round is a series of expressions starting with keyword "row" or "rnd", or "repeat"?
+row <- "row" ws num ws st *(ws st) ws #e *(e)
+
+# an expression is a stgrp or a repst
+#e <= stgrp | "skip" 
+
+# stgrp is a stitch group defined by the user, or primitive stitch type, followed by a number?
+#stgrp <- ws st * (st)
+
+# st is a primitive stitch
+st <- "ch"|"sc"|"hdc" ws
+
+# rep is a keyword to repeat either a group of stitches in parens or rows
+
+# keywords tell the interpreter how to make links between stitches
+keyword <- "turn"|"skip"|"in"|"next"|"same"
+
+# numbers- only integers
+num <- +[0-9] ws
+
+ws    <: *[ :,/.\t\n\r]

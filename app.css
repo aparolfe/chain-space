@@ -1,0 +1,100 @@
+
+/* Header */
+
+#header {
+  background-color: White;
+  border-bottom: 1px solid LightSteelBlue;
+  font-family: 'Verdana', sans-serif;
+  font-weight: 300;
+  font-size: 17px;
+  padding: 4px;
+  margin-bottom:10px;
+  width:100%;
+  max-width:none;
+}
+
+/* Body */
+body {
+  background-image:url("img/tile.png");
+  background-repeat: repeat;  
+  height: 100% !important;
+  padding: 0px;
+  margin:0;
+
+}
+
+.full-height
+{
+  display:table;
+}
+
+.accordion .accordion-navigation > a {
+    padding: 0px 0px 0px 5px;
+    color: WhiteSmoke;
+    background-color: LightSlateGray;
+}
+
+/* Pattern */
+
+#pattern-text {
+    height:auto;
+}
+
+#pattern .button{
+    padding: 3px;
+    margin-bottom:3px;
+    background-color: DeepSkyBlue;
+    color: WhiteSmoke;
+    border-radius: 2px;
+    display:block;
+}
+
+/* Stitches */
+#panel2a ul li ul li{
+    display:flex;
+    padding:0px 10px 0px 10px;
+    margin:0;
+    justify-content:center;
+}
+
+#panel2a ul li ul li div{
+    width:50px;
+   // height:50px;
+    background-color: WhiteSmoke;
+    border:1px solid LightSteelBlue;
+    border-radius:2px;
+    margin:3px;
+    padding:3px;
+    float:none;
+    display:flex;
+    justify-content: center;
+}
+
+/* Chart */
+#chart-container {
+    padding:2px;
+    background-color:GhostWhite;
+}
+
+#chart p{
+  color:LightSkyBlue;
+  border-bottom: 1px solid LightSteelBlue;
+}
+
+.stitch {
+    stroke-width:2;
+    stroke-miterlimit:4;
+    stroke-dasharray:none;
+    fill:none;
+    stroke:#000000;
+    stroke-width:2;
+    stroke-linecap:round;
+    stroke-linejoin:round;
+    stroke-miterlimit:4;
+    stroke-opacity:1;
+    stroke-dasharray:none; 
+}
+
+.link {
+    stroke: #ccc;
+}

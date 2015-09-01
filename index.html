@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html class=" js flexbox flexboxlegacy canvas canvastext webgl no-touch geolocation postmessage no-websqldatabase indexeddb hashchange history draganddrop websockets rgba hsla multiplebgs backgroundsize borderimage borderradius boxshadow textshadow opacity cssanimations csscolumns cssgradients no-cssreflections csstransforms csstransforms3d csstransitions fontface generatedcontent video audio localstorage sessionstorage webworkers applicationcache svg inlinesvg smil svgclippaths" lang="en" style="">	
+  <head>
+    <meta charset="utf-8">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <title>ChainSpace</title>
+    <link href="css/foundation.css" rel="stylesheet">
+    <script src="lib/vendor/modernizr.js"></script>
+    <meta class="foundation-data-attribute-namespace">
+    <meta class="foundation-mq-xxlarge">
+    <meta class="foundation-mq-xlarge-only">
+    <meta class="foundation-mq-xlarge">
+    <meta class="foundation-mq-large-only">
+    <meta class="foundation-mq-large">
+    <meta class="foundation-mq-medium-only">
+    <meta class="foundation-mq-medium">
+    <meta class="foundation-mq-small-only">
+    <meta class="foundation-mq-small">
+    <meta class="foundation-mq-topbar">
+    <link href="app.css" rel="stylesheet">
+  </head>
+  
+  <body>
+    <div class="row fullWidth" id="header">
+ 	<a href="#" class="logo-icon"> <img src="img/logo.png"> </a>
+    </div>
+    
+    <div class="main">
+    <div class="row  full-height small-collapse" data-equalizer>
+      
+      <div class="small-4 columns" data-equalizer-watch>
+	<ul class="accordion" data-accordion>
+	  <li class="accordion-navigation">
+	    <a href="#panel1a">Pattern Text</a>
+	    <div id="panel1a" class="content active">
+	      <div id="pattern">
+		<textarea id="pattern-text" placeholder = "Type your pattern here..."></textarea>	
+		<a class="button" id="magic">Create Chart!</a>
+	      </div>
+	    </div>
+	  </li>
+	  <li class="accordion-navigation">
+	    <a href="#panel2a">Stitches</a>
+	    <div id="panel2a" class="content active">
+	      <ul class="small-block-grid-2">
+		<li>
+		  <ul class="small-block-grid-2 small-collapse">
+		    <li> <div class = "stitch"> <img src = "img/ch.png"> </div></li>
+		    <li><div class = "stitch"> ch</div> </li>
+		  </ul>
+		</li>
+		<li>
+		  <ul class="small-block-grid-2 small-collapse">
+		    <li> <div class = "stitch"> <img src = "img/sc.png"></div></li>
+		    <li><div class = "stitch"> sc</div> </li>
+		  </ul>
+		</li>
+	      </ul>
+	    </div>
+	  </li>
+	</ul>
+      </div>
+ 
+      <div class="small-8 columns">
+	<div id = "chart-container" class="callout panel" data-equalizer-watch>
+	  <div id="chart">
+	    <p> See the chart here! </p>
+	    <svg id="frame" class="full-height" width=100% style="border:1px solid #ccc"></svg>
+	  </div>
+	</div>
+      </div>
+
+    </div>
+    </div>
+
+    <script src="node_modules/jquery.js"> </script>
+    <script src="node_modules/foundation.js"> </script>
+    <script type="text/javascript" src="app.js"></script>
+
+  </body>
+</html>
