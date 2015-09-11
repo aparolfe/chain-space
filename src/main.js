@@ -26,8 +26,8 @@ var main = function(){
 
 	// Create chart (force layout)
 	var chart = d3.layout.force()
-	    .nodes(nodes) // empty
-	    .links(links) //empty
+	    .nodes(nodes) 
+	    .links(links) 
 	    .size([$("#chart").width(), $("#chart").height()])
 	    .linkDistance(30)
 	    .charge(-60)
