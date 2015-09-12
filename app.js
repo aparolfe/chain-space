@@ -9799,14 +9799,15 @@ exports.interpret =  function(ast) {
 	    if (st instanceof Object) {
 		if (st.type == "num") { // find the row number
 		    rownum = parseInt(st.children[0],10); // assigns row number
-		    if (i==0) { firstrow = rownum; }
+		    if (i == 0) { firstrow = rownum; }
 		}
+		
 		if  (st.type == "st") {
 		    //add node
 		    stnum++;
 		    node.row = rownum;
 		    node.st = stnum;
-		    node.type = st.children.join('');
+		    node.type = st.children.join('').toLowerCase();
 		    nodes[stcount] = node;
 		    stcount++;
 		    //add links
@@ -9820,6 +9821,21 @@ exports.interpret =  function(ast) {
 			targetindex--;
 		    }
 		}
+		
+		if  (st.type == "keyword") {
+		    switch(st.children.join('').toLowerCase()) {
+		    case "sk":
+			targetindex--;
+			break;
+		    case "skip":
+			targetindex--;
+			break;
+		    case "turn":
+			//do nothing until rnd or short row support added
+			break;
+		    }
+		}
+		
 	    }
 	}
     }
@@ -9928,19 +9944,22 @@ if (typeof module !== 'undefined') {
 var Parser = (function() {
 
     var parser = function() { return this; };
-    parser.prototype = new waxeye.WaxeyeParser(0, true, [new waxeye.FA("patt", [new waxeye.State([new waxeye.Edge(5, 1, false)], false),
+    parser.prototype = new waxeye.WaxeyeParser(0, true, [new waxeye.FA("patt", [new waxeye.State([new waxeye.Edge(6, 1, false)], false),
             new waxeye.State([new waxeye.Edge(1, 2, false)], false),
-            new waxeye.State([new waxeye.Edge(5, 3, false)], true),
+            new waxeye.State([new waxeye.Edge(6, 3, false)], true),
             new waxeye.State([new waxeye.Edge(1, 2, false)], false)], waxeye.FA.LEFT),
         new waxeye.FA("row", [new waxeye.State([new waxeye.Edge(["R", "r"], 1, false)], false),
             new waxeye.State([new waxeye.Edge(["O", "o"], 2, false)], false),
             new waxeye.State([new waxeye.Edge(["W", "w"], 3, false)], false),
-            new waxeye.State([new waxeye.Edge(5, 4, false)], false),
-            new waxeye.State([new waxeye.Edge(4, 5, false)], false),
-            new waxeye.State([new waxeye.Edge(5, 6, false)], false),
+            new waxeye.State([new waxeye.Edge(6, 4, false)], false),
+            new waxeye.State([new waxeye.Edge(5, 5, false)], false),
+            new waxeye.State([new waxeye.Edge(6, 6, false)], false),
             new waxeye.State([new waxeye.Edge(2, 7, false)], false),
-            new waxeye.State([new waxeye.Edge(5, 8, false)], false),
+            new waxeye.State([new waxeye.Edge(6, 8, false)], false),
             new waxeye.State([new waxeye.Edge(2, 7, false)], true)], waxeye.FA.LEFT),
+        new waxeye.FA("e", [new waxeye.State([new waxeye.Edge(3, 1, false),
+                new waxeye.Edge(4, 1, false)], false),
+            new waxeye.State([], true)], waxeye.FA.PRUNE),
         new waxeye.FA("st", [new waxeye.State([new waxeye.Edge(["C", "c"], 1, false),
                 new waxeye.Edge(["S", "s"], 3, false),
                 new waxeye.Edge(["H", "h"], 4, false)], false),
@@ -9949,7 +9968,7 @@ var Parser = (function() {
             new waxeye.State([new waxeye.Edge(["C", "c"], 2, false)], false),
             new waxeye.State([new waxeye.Edge(["D", "d"], 5, false)], false),
             new waxeye.State([new waxeye.Edge(["C", "c"], 6, false)], false),
-            new waxeye.State([new waxeye.Edge(5, 2, false)], false)], waxeye.FA.LEFT),
+            new waxeye.State([new waxeye.Edge(6, 2, false)], false)], waxeye.FA.LEFT),
         new waxeye.FA("keyword", [new waxeye.State([new waxeye.Edge(["T", "t"], 1, false),
                 new waxeye.Edge(["S", "s"], 5, false),
                 new waxeye.Edge(["I", "i"], 8, false),
@@ -9960,7 +9979,7 @@ var Parser = (function() {
             new waxeye.State([new waxeye.Edge(["N", "n"], 4, false)], false),
             new waxeye.State([], true),
             new waxeye.State([new waxeye.Edge(["K", "k"], 6, false)], false),
-            new waxeye.State([new waxeye.Edge(["I", "i"], 7, false)], false),
+            new waxeye.State([new waxeye.Edge(["I", "i"], 7, false)], true),
             new waxeye.State([new waxeye.Edge(["P", "p"], 4, false)], false),
             new waxeye.State([new waxeye.Edge(["N", "n"], 4, false)], false),
             new waxeye.State([new waxeye.Edge(["E", "e"], 10, false)], false),
@@ -9968,10 +9987,11 @@ var Parser = (function() {
             new waxeye.State([new waxeye.Edge(["T", "t"], 4, false)], false),
             new waxeye.State([new waxeye.Edge(["A", "a"], 13, false)], false),
             new waxeye.State([new waxeye.Edge(["M", "m"], 14, false)], false),
-            new waxeye.State([new waxeye.Edge(["E", "e"], 4, false)], false)], waxeye.FA.LEFT),
+            new waxeye.State([new waxeye.Edge(["E", "e"], 15, false)], false),
+            new waxeye.State([new waxeye.Edge(6, 4, false)], false)], waxeye.FA.LEFT),
         new waxeye.FA("num", [new waxeye.State([new waxeye.Edge([[48, 57]], 1, false)], false),
             new waxeye.State([new waxeye.Edge([[48, 57]], 1, false),
-                new waxeye.Edge(5, 2, false)], false),
+                new waxeye.Edge(6, 2, false)], false),
             new waxeye.State([], true)], waxeye.FA.LEFT),
         new waxeye.FA("ws", [new waxeye.State([new waxeye.Edge([[9, 10], "\r", " ", ",", [46, 47], ":"], 0, false)], true)], waxeye.FA.VOID)]);
     return parser;

@@ -21,14 +21,15 @@ exports.interpret =  function(ast) {
 	    if (st instanceof Object) {
 		if (st.type == "num") { // find the row number
 		    rownum = parseInt(st.children[0],10); // assigns row number
-		    if (i==0) { firstrow = rownum; }
+		    if (i == 0) { firstrow = rownum; }
 		}
+		
 		if  (st.type == "st") {
 		    //add node
 		    stnum++;
 		    node.row = rownum;
 		    node.st = stnum;
-		    node.type = st.children.join('');
+		    node.type = st.children.join('').toLowerCase();
 		    nodes[stcount] = node;
 		    stcount++;
 		    //add links
@@ -42,6 +43,21 @@ exports.interpret =  function(ast) {
 			targetindex--;
 		    }
 		}
+		
+		if  (st.type == "keyword") {
+		    switch(st.children.join('').toLowerCase()) {
+		    case "sk":
+			targetindex--;
+			break;
+		    case "skip":
+			targetindex--;
+			break;
+		    case "turn":
+			//do nothing until rnd or short row support added
+			break;
+		    }
+		}
+		
 	    }
 	}
     }
