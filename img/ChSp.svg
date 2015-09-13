@@ -25,17 +25,17 @@
      borderopacity="1.0"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
-     inkscape:zoom="1.1810905"
-     inkscape:cx="-237.93483"
+     inkscape:zoom="1.595"
+     inkscape:cx="-238.43483"
      inkscape:cy="-19.894409"
      inkscape:document-units="px"
      inkscape:current-layer="layer2"
      showgrid="false"
      showborder="false"
      inkscape:showpageshadow="false"
-     inkscape:window-width="1380"
+     inkscape:window-width="1384"
      inkscape:window-height="856"
-     inkscape:window-x="60"
+     inkscape:window-x="56"
      inkscape:window-y="0"
      inkscape:window-maximized="1" />
   <metadata
@@ -2628,6 +2628,78 @@
          id="path4029"
          d="m -614,962.36218 14,0"
          style="fill:none;stroke:#000000;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none" />
+    </g>
+    <g
+       inkscape:export-ydpi="90"
+       inkscape:export-xdpi="90"
+       inkscape:export-filename="/Users/aparna/GitHub/chain-space/img/logo-idle.png"
+       id="g3259"
+       transform="translate(0,40)">
+      <text
+         sodipodi:linespacing="125%"
+         id="text3261"
+         y="1143.7897"
+         x="-565.30157"
+         style="font-size:24px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#888888;fill-opacity:1;stroke:none;font-family:Verdana;-inkscape-font-specification:Verdana"
+         xml:space="preserve"><tspan
+           y="1143.7897"
+           x="-565.30157"
+           id="tspan3263"
+           sodipodi:role="line">chain space</tspan></text>
+      <text
+         sodipodi:linespacing="125%"
+         id="text3265"
+         y="1160.337"
+         x="-535.78204"
+         style="font-size:16px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#87cefa;fill-opacity:1;stroke:none;font-family:Verdana;-inkscape-font-specification:Verdana"
+         xml:space="preserve"><tspan
+           y="1160.337"
+           x="-535.78204"
+           id="tspan3267"
+           sodipodi:role="line">crochet stitch display</tspan></text>
+      <rect
+         y="1124.5555"
+         x="-565.07135"
+         height="40"
+         width="200"
+         id="rect3269"
+         style="fill:none;stroke:none" />
+    </g>
+    <g
+       transform="translate(0,80)"
+       id="g4039"
+       inkscape:export-filename="/Users/aparna/GitHub/chain-space/img/logo-active.png"
+       inkscape:export-xdpi="90"
+       inkscape:export-ydpi="90">
+      <text
+         xml:space="preserve"
+         style="font-size:24px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#444444;fill-opacity:1;stroke:none;font-family:Verdana;-inkscape-font-specification:Verdana"
+         x="-565.30157"
+         y="1143.7897"
+         id="text4041"
+         sodipodi:linespacing="125%"><tspan
+           sodipodi:role="line"
+           id="tspan4043"
+           x="-565.30157"
+           y="1143.7897">chain space</tspan></text>
+      <text
+         xml:space="preserve"
+         style="font-size:16px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#00bfff;fill-opacity:1;stroke:none;font-family:Verdana;-inkscape-font-specification:Verdana"
+         x="-535.78204"
+         y="1160.337"
+         id="text4045"
+         sodipodi:linespacing="125%"><tspan
+           sodipodi:role="line"
+           id="tspan4047"
+           x="-535.78204"
+           y="1160.337">crochet stitch display</tspan></text>
+      <rect
+         style="fill:none;stroke:none"
+         id="rect4049"
+         width="200"
+         height="40"
+         x="-565.07135"
+         y="1124.5555" />
     </g>
   </g>
 </svg>

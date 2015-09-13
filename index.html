@@ -1,80 +1,87 @@
 <!DOCTYPE html>
-<html class=" js flexbox flexboxlegacy canvas canvastext webgl no-touch geolocation postmessage no-websqldatabase indexeddb hashchange history draganddrop websockets rgba hsla multiplebgs backgroundsize borderimage borderradius boxshadow textshadow opacity cssanimations csscolumns cssgradients no-cssreflections csstransforms csstransforms3d csstransitions fontface generatedcontent video audio localstorage sessionstorage webworkers applicationcache svg inlinesvg smil svgclippaths" lang="en" style="">	
+<html>	
   <head>
     <meta charset="utf-8">
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
     <title>ChainSpace</title>
-    <link href="css/foundation.css" rel="stylesheet">
-    <script src="lib/vendor/modernizr.js"></script>
-    <meta class="foundation-data-attribute-namespace">
-    <meta class="foundation-mq-xxlarge">
-    <meta class="foundation-mq-xlarge-only">
-    <meta class="foundation-mq-xlarge">
-    <meta class="foundation-mq-large-only">
-    <meta class="foundation-mq-large">
-    <meta class="foundation-mq-medium-only">
-    <meta class="foundation-mq-medium">
-    <meta class="foundation-mq-small-only">
-    <meta class="foundation-mq-small">
-    <meta class="foundation-mq-topbar">
     <link href="app.css" rel="stylesheet">
   </head>
   
   <body>
-    <div class="row fullWidth" id="header">
- 	<a href="#" class="logo-icon"> <img src="img/logo.png"> </a>
+    <div class="row" id="header">
+      <a href="#" class="logo"> <span></span> </a>
+      <div class="button-bar">
+	<div id="about-button" class="oval-button"> <p> why </p> </div>
+	<div id="info-button" class="oval-button"> <p> how </p> </div>
+	<div id="faq-button" class="oval-button"> <p> faq </p> </div>
+      </div>
     </div>
     
     <div class="main">
-    <div class="row  full-height small-collapse" data-equalizer>
+    <div class="row  full-height">
       
-      <div class="small-4 columns" data-equalizer-watch>
-	<ul class="accordion" data-accordion>
-	  <li class="accordion-navigation">
-	    <a href="#panel1a">Pattern Text</a>
-	    <div id="panel1a" class="content active">
-	      <div id="pattern">
-		<textarea id="pattern-text" placeholder = "Type your pattern here..."></textarea>	
-		<a class="button" id="magic">Create Chart!</a>
-	      </div>
-	    </div>
-	  </li>
-	  <li class="accordion-navigation">
-	    <a href="#panel2a">Stitches</a>
-	    <div id="panel2a" class="content active">
-	      <ul class="small-block-grid-2">
-		<li>
-		  <ul class="small-block-grid-2 small-collapse">
-		    <li> <div class = "stitch"> <img src = "img/ch.png"> </div></li>
-		    <li><div class = "stitch"> ch</div> </li>
-		  </ul>
-		</li>
-		<li>
-		  <ul class="small-block-grid-2 small-collapse">
-		    <li> <div class = "stitch"> <img src = "img/sc.png"></div></li>
-		    <li><div class = "stitch"> sc</div> </li>
-		  </ul>
-		</li>
-	      </ul>
-	    </div>
-	  </li>
-	</ul>
+      <div class="left-column  full-height">
+	<div id = "enter-pattern">
+	    <h4>Pattern Text</h4>
+	      <textarea id="pattern-text" placeholder = "Type your pattern here..."></textarea>	
+	      <a class="button" id="create">Create Chart!</a>
+	</div>
+	<div id = "stitches">
+	  <h4>Stitches</h4>
+	  <div id="pattern">
+	    <ul>
+	      <li>
+		<ul>
+		  <li> <div class = "stitch"> <img src = "img/ch.png"> </div></li>
+		  <li><div class = "stitch"> ch</div> </li>
+		</ul>
+	      </li>
+	      <li>
+		<ul>
+		  <li> <div class = "stitch"> <img src = "img/sc.png"></div></li>
+		  <li><div class = "stitch"> sc</div> </li>
+		</ul>
+	      </li>
+	    </ul>
+	  </div>
+	</div>
       </div>
  
-      <div class="small-8 columns">
-	<div id = "chart-container" class="callout panel" data-equalizer-watch>
-	  <div id="chart">
-	    <p> See the chart here! </p>
-	    <svg id="frame" class="full-height" width=100% style="border:1px solid #ccc"></svg>
-	  </div>
+      <div class="right-column full-height">
+	<div id= "faq">
+	  <h3> No one has asked any questions yet, but here's where they will go...</h3>
+	  <ul>
+	    <li> What can I use these charts for? </li>
+	    <li> What if I want to work offline? </li>
+	    <li> What are your plans for the future? </li>
+	  </ul>
+	</div>
+	<div id= "info">
+	  <h3> How do I use chain-space? </h3>
+	  <p> Enter your own pattern and hit the "Create Chart" button! Here are the rules for the pattern text...</p>
+	  <ul>
+	    <li> Start with "Row" or "Rnd" followed by a number  </li>
+	    <li> Recognized stitches are : ch, sc, hdc </li>
+	    <li> Recognized keywords are : turn, skip </li>
+	  </ul>
+	</div>
+	<div id= "about">
+	  <h3> Why does chain-space exist? </h3>
+	  <ul>
+	    <li> Because as a crochet pattern designer I wanted an easier way to create charts </li>
+	    <li> Because as a software engineer I thought this would be a cool project </li>
+	    <li> Because open-source and free software is awesome! </li>
+	  </ul>
+	</div>
+	<div id="chart">
+	  <p> Here's your chart! </p>
+	  <svg id="frame" class="full-height"></svg>
 	</div>
       </div>
 
     </div>
     </div>
 
-    <script src="node_modules/jquery.js"> </script>
-    <script src="node_modules/foundation.js"> </script>
     <script type="text/javascript" src="app.js"></script>
 
   </body>

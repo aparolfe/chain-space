@@ -1,7 +1,6 @@
 // from chain-space folder command prompt  -  $ browserify src/main.js -o app.js
 
-//var $ = require('jquery');
-//var foundation = require('foundation');
+var $ = require('jquery');
 var d3 = require("d3");
 var parser = require('./parser');
 var interpreter = require('./interpreter');
@@ -9,8 +8,24 @@ var p = new parser.Parser();
 
 var main = function(){
     "use strict";
+    $('.right-column').children().toggle(false);
+    $('#info').toggle(true);
+    
     $(".full-height").height($(".main").parent().height());
-    $("#magic").click(function(){
+    $("#faq-button").click(function(){
+	$('.right-column').children().toggle(false);
+	$('#faq').toggle(true);
+    });
+    $("#info-button").click(function(){
+	$('.right-column').children().toggle(false);
+	$('#info').toggle(true);
+    });
+    $("#about-button").click(function(){
+	$('.right-column').children().toggle(false);
+	$('#about').toggle(true);
+    });
+    
+    $("#create").click(function(){
 	var text = $("#pattern-text").val();
 	console.log(text);
 	var ast = p.parse(text);
@@ -22,6 +37,8 @@ var main = function(){
 	console.log(links);
 	
 	//Create svg frame
+	$('.right-column').children().toggle(false);
+	$('#chart').toggle(true);
 	var frame = d3.select("#frame");
 
 	// Create chart (force layout)
@@ -73,13 +90,4 @@ var main = function(){
     });
 };
 
-$(document).foundation();
-    $(document).foundation({
-  accordion: {
-    content_class: 'content',    // specify the class used for accordion panels   
-    active_class: 'active', // specify the class used for active (or open) accordion panels
-    multi_expand: true,      // allow multiple accordion panels to be active at the same time
-    toggleable: true    // allow accordion panels to be closed by clicking on their headers
-  }
-});
 $(document).ready(main);
