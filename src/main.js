@@ -1,6 +1,7 @@
 // from chain-space folder command prompt  -  $ browserify src/main.js -o app.js
 
 var $ = require('jquery');
+var swatches = require('./swatches');
 var d3 = require("d3");
 var parser = require('./parser');
 var interpreter = require('./interpreter');
@@ -8,10 +9,15 @@ var p = new parser.Parser();
 
 var main = function(){
     "use strict";
+    $('#logo').click(function(){
+	location.reload(true);
+    });
+    
     $('.right-column').children().toggle(false);
     $('#info').toggle(true);
     
     $(".full-height").height($(".main").parent().height());
+
     $("#faq-button").click(function(){
 	$('.right-column').children().toggle(false);
 	$('#faq').toggle(true);
@@ -23,6 +29,13 @@ var main = function(){
     $("#about-button").click(function(){
 	$('.right-column').children().toggle(false);
 	$('#about').toggle(true);
+    });
+
+    $("#granite").click(function(){
+	$("#pattern-text").val(swatches.granite);
+    });
+    $("#griddle").click(function(){
+	$("#pattern-text").val(swatches.griddle);
     });
     
     $("#create").click(function(){
