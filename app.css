@@ -138,6 +138,22 @@ p {
     cursor: pointer;
 }
 
+.button{
+    padding: 3px;
+    margin-bottom:3px;
+    background-color: DeepSkyBlue;
+    color: WhiteSmoke;
+    border-radius: 7px;
+    display:block;
+    cursor: pointer;
+    text-align:center;
+}
+
+.button:hover {
+    color: White;
+    background-color: RoyalBlue;
+}
+
 /* Enter Pattern */
 
 #pattern-text {
@@ -163,18 +179,8 @@ textarea {
     width: 100%;
 }
 
-#enter-pattern .button{
-    padding: 3px;
-    margin-bottom:3px;
-    background-color: DeepSkyBlue;
-    color: WhiteSmoke;
-    border-radius: 2px;
-    display:block;
-    cursor: pointer;
-    text-align:center;
-}
-
 /* Stitches */
+
 #stitches ul li ul li{
     display:flex;
     padding:0px 10px 0px 10px;
@@ -198,21 +204,6 @@ textarea {
 
 .stitch {
     display:inline-block;
-    stroke-width:2;
-    stroke-miterlimit:4;
-    stroke-dasharray:none;
-    fill:none;
-    stroke:#000000;
-    stroke-width:2;
-    stroke-linecap:round;
-    stroke-linejoin:round;
-    stroke-miterlimit:4;
-    stroke-opacity:1;
-    stroke-dasharray:none; 
-}
-
-.link {
-    stroke: #ccc; 
 }
 
 #frame {

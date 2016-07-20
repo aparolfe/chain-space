@@ -2,6 +2,7 @@
 
 var $ = require('jquery');
 var d3 = require('d3');
+var filesaver = require('filesaver');
 var parser = require('./parser');
 var interpreter = require('./interpreter');
 var swatchlist = require('./swatches');
@@ -102,6 +103,24 @@ var main = function(){
 	    frame.selectAll('.node')
 		.attr('transform', function(d) { return "translate(" + d.x + "," + d.y + ")"; });
 	}
+	$('#save').click(function(){
+	var svgData = $("#chart").html();
+	console.log(svgData);
+	var blob = new Blob([svgData], {type: "image/svg+xml;charset=utf-8"});
+	filesaver.saveAs(blob, "chart.svg");
+	});
+/*
+
+	    var html = d3.select("#frame")
+        .attr("version", 1.1)
+        .attr("xmlns", "http://www.w3.org/2000/svg")
+        .node().parentNode.innerHTML;
+
+	console.log(html);
+	var imgsrc = 'data:image/svg+xml;base64,'+ btoa(html);
+	var img = '<img src="'+imgsrc+'">'; 
+	d3.select("#enter-pattern").html(img);
+*/
     });
 };
 

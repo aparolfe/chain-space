@@ -26,7 +26,8 @@
 	      <textarea id="pattern-text" placeholder = "Type your pattern here..."></textarea>	
 	      <a class="button" id="create">Create Chart!</a>
 	</div>
-	<div id = "stitches">
+	<div id = "stitches">	
+	  <a class="button" id="save">Save Chart</a>
 	  <h4>Stitches</h4>
 	  <div>
 	    <ul id = "stitches-list">
@@ -68,8 +69,23 @@
 	  </ul>
 	</div>
 	<div id="chart">
-	  <p> Here's your chart! </p>
-	  <svg id="frame" class="full-height"></svg>
+	  <svg id="frame" class="full-height"><style type="text/css" > <![CDATA[ 
+.stitch {
+    stroke-width:2;
+    stroke-miterlimit:4;
+    stroke-dasharray:none;
+    fill:none;
+    stroke:#000000;
+    stroke-width:2;
+    stroke-linecap:round;
+    stroke-linejoin:round;
+    stroke-miterlimit:4;
+    stroke-opacity:1;
+    stroke-dasharray:none; 
+}
+.link {
+    stroke: #ccc; 
+} ]]> </style></svg>
 	</div>
       </div>
 
