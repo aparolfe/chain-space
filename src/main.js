@@ -49,7 +49,7 @@ var main = function(){
 	var pattern = interpreter.interpret(ast);
 	var nodes = pattern.stitches;
 	var links = pattern.connections;
-	//console.log(nodes);
+	console.log(nodes);
 	//console.log(links);
 	var stitchtypes = {};
 	for (var key in nodes) {
@@ -57,28 +57,30 @@ var main = function(){
 	    else { stitchtypes[nodes[key].type] = 0; }
 	};
 	//console.log(stitchtypes);
+	$('#stitches-list').html('');
 	for (var key in stitchtypes) {
 	    $('#stitches-list').append('<li><div style="display: inline-block;"><span> ' + key + '</span><div style="display: inline-block;"><svg height="30" width="30"><g transform="translate(15,15)">' +stitches[key] + '</g></svg></div>' + '</div> </li>');
 	};
 	$('#pattern-text').height($('.left-column').height()/3);
 	$('#stitches').toggle(true);
 	
-	//Create svg frame
+	//Create svg frame and clear any previous chart elements
 	$('.right-column').children().toggle(false);
 	$('#chart').toggle(true);
 	var frame = d3.select('#frame');
-
+	frame.selectAll('g').remove();
+	frame.selectAll('line').remove();
+	
 	// Create chart (force layout)
 	var chart = d3.layout.force()
 	    .nodes(nodes) 
 	    .links(links) 
 	    .size([$('#chart').width(), $('#chart').height()])
-	    .linkDistance(30)
-	    .charge(-60)
+	    .linkDistance(20)
+	    .charge(-100)
 	    .on('tick', tick); //calculate movement
 
-	chart.start();
-	//console.log(nodes);
+	console.log(nodes);
 	//console.log(links);
 	var link = frame.selectAll('.link') // converting links to svg lines
 	    .data(links)
@@ -93,6 +95,7 @@ var main = function(){
 	    .attr('class', 'node')
 	    .call(chart.drag);
 	
+	chart.start();
 	function tick() {    
 	    frame.selectAll('.link')
 		.attr('x1', function(d) { return d.source.x; })
@@ -103,6 +106,7 @@ var main = function(){
 	    frame.selectAll('.node')
 		.attr('transform', function(d) { return "translate(" + d.x + "," + d.y + ")"; });
 	}
+	
 	$('#save').click(function(){
 	var svgData = $("#chart").html();
 	console.log(svgData);
