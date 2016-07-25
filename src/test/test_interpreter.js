@@ -44,6 +44,33 @@ describe('Interpreter', function() {
 	});
     });
 
+    describe('# recognize numbers', function () {
+	it('should recognize 1.', function () {
+	    ast = p.parse("Row 1: sc, hdc, sc.");
+	    //console.log(ast.toString());
+	    patt = i.interpret(ast);
+	    assert.equal(patt.stitches[patt.stitches.length-1].row.toString(), 1);
+	});
+	it('should recognize 1 digit numbers.', function () {
+	    ast = p.parse("Row 7: sc, hdc, sc.");
+	    //console.log(ast.toString());
+	    patt = i.interpret(ast);
+	    assert.equal(patt.stitches[patt.stitches.length-1].row.toString(), 7);
+	});
+	it('should recognize 2 digit numbers.', function () {
+	    ast = p.parse("Row 10: sc, hdc, sc.");
+	    //console.log(ast.toString());
+	    patt = i.interpret(ast);
+	    assert.equal(patt.stitches[patt.stitches.length-1].row.toString(), 10);
+	});
+	it('should recognize 3 digit numbers.', function () {
+	    ast = p.parse("Row 123: sc, hdc, sc.");
+	    //console.log(ast.toString());
+	    patt = i.interpret(ast);
+	    assert.equal(patt.stitches[patt.stitches.length-1].row.toString(), 123);
+	});
+    });
+    
     describe('# recognize keywords', function () {
 	it('should recognize turn.', function () {
 	    ast = p.parse("Row 1: sc, hdc, sc. \nRow 2: Turn, ch, sc, hdc, sc. \nRow 3: turn, ch, sc, hdc, sc. \nRow 4: TURN, ch, sc, hdc, sc.");

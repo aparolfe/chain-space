@@ -10100,7 +10100,7 @@ exports.interpret =  function(ast) {
 	    var node = {}; //each stitch will be a node
 	    if (st instanceof Object) {
 		if (st.type == "num") { // find the row number
-		    rownum = parseInt(st.children[0],10); // assigns row number
+		    rownum = parseInt(st.children.join(""),10); // assigns row number
 		    if (i == 0) { firstrow = rownum; }
 		}
 		
@@ -10196,7 +10196,7 @@ var main = function(){
 	var pattern = interpreter.interpret(ast);
 	var nodes = pattern.stitches;
 	var links = pattern.connections;
-	console.log(nodes);
+	//console.log(nodes);
 	//console.log(links);
 	var stitchtypes = {};
 	for (var key in nodes) {
@@ -10227,8 +10227,6 @@ var main = function(){
 	    .charge(-100)
 	    .on('tick', tick); //calculate movement
 
-	console.log(nodes);
-	//console.log(links);
 	var link = frame.selectAll('.link') // converting links to svg lines
 	    .data(links)
 	    .enter().append('line')
@@ -10240,9 +10238,12 @@ var main = function(){
 	    .enter().append('g')
 	    .html( function(d) {return stitches[d.type]})
 	    .attr('class', 'node')
+	    .style('stroke', function(d){if (d.row%2 == 1) return '#000000'; else return '#0000FF'; } )
 	    .call(chart.drag);
 	
 	chart.start();
+	console.log(nodes);
+	//console.log(links);
 	function tick() {    
 	    frame.selectAll('.link')
 		.attr('x1', function(d) { return d.source.x; })

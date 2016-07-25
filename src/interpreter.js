@@ -20,7 +20,7 @@ exports.interpret =  function(ast) {
 	    var node = {}; //each stitch will be a node
 	    if (st instanceof Object) {
 		if (st.type == "num") { // find the row number
-		    rownum = parseInt(st.children[0],10); // assigns row number
+		    rownum = parseInt(st.children.join(""),10); // assigns row number
 		    if (i == 0) { firstrow = rownum; }
 		}
 		
