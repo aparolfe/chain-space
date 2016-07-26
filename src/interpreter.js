@@ -15,15 +15,28 @@ exports.interpret =  function(ast) {
 	if (i !==0) { // all rows except the first row
 	    targetindex = stcount - 1; //make last stitch of last row the target stitch
 	}
+	//at this point, replace any st-num notations in the row with longhand
+	var newcontents=[]; //rewrite into new array because array length might change
 	for (var j = 0; j < contents.length; j++) { //iterate over row contents
 	    var st = contents[j];
+	    if (st instanceof Object && st.type == "st" && st.children[st.children.length-1] instanceof Object) { // if st is in st-num format
+		var strepnum = parseInt(st.children[st.children.length-1].children.join(""),10);
+		st.children.pop(); 				 // remove num from end of st
+		for (var jj = 0; jj < strepnum; jj++) { // replace by num reps of st
+		    newcontents.push(st);
+		}
+	    }
+	    else newcontents.push(st);
+	}
+	// interpret the row
+	for (var k = 0; k < newcontents.length; k++) { //iterate over row contents
+	    var st = newcontents[k];
 	    var node = {}; //each stitch will be a node
 	    if (st instanceof Object) {
 		if (st.type == "num") { // find the row number
 		    rownum = parseInt(st.children.join(""),10); // assigns row number
 		    if (i == 0) { firstrow = rownum; }
 		}
-		
 		if  (st.type == "st") {
 		    //add node
 		    stnum++;
@@ -43,7 +56,6 @@ exports.interpret =  function(ast) {
 			targetindex--;
 		    }
 		}
-		
 		if  (st.type == "keyword") {
 		    switch(st.children.join('').toLowerCase()) {
 		    case "sk":

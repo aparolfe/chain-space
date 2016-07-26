@@ -12,11 +12,11 @@ row <- "row" ws num ws e *(ws e) ws
 # an expression is a stgrp or a repst
 e <= st | keyword 
 
-# stgrp is a stitch group defined by the user, or primitive stitch type, followed by a number?
+# stgrp is a stitch group defined by the user
 #stgrp <= st *(ws st)
 
-# st is a primitive stitch
-st <- "ch"|"sc"|"hdc" ws
+# st is a primitive stitch,  possibly followed by a number
+st <- ("ch"|"sc"|"hdc") (?num) ws
 
 # rep is a keyword to repeat either a group of stitches in parens or rows
 

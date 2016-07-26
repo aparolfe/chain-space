@@ -10095,15 +10095,28 @@ exports.interpret =  function(ast) {
 	if (i !==0) { // all rows except the first row
 	    targetindex = stcount - 1; //make last stitch of last row the target stitch
 	}
+	//at this point, replace any st-num notations in the row with longhand
+	var newcontents=[]; //rewrite into new array because array length might change
 	for (var j = 0; j < contents.length; j++) { //iterate over row contents
 	    var st = contents[j];
+	    if (st instanceof Object && st.type == "st" && st.children[st.children.length-1] instanceof Object) { // if st is in st-num format
+		var strepnum = parseInt(st.children[st.children.length-1].children.join(""),10);
+		st.children.pop(); 				 // remove num from end of st
+		for (var jj = 0; jj < strepnum; jj++) { // replace by num reps of st
+		    newcontents.push(st);
+		}
+	    }
+	    else newcontents.push(st);
+	}
+	// interpret the row
+	for (var k = 0; k < newcontents.length; k++) { //iterate over row contents
+	    var st = newcontents[k];
 	    var node = {}; //each stitch will be a node
 	    if (st instanceof Object) {
 		if (st.type == "num") { // find the row number
 		    rownum = parseInt(st.children.join(""),10); // assigns row number
 		    if (i == 0) { firstrow = rownum; }
 		}
-		
 		if  (st.type == "st") {
 		    //add node
 		    stnum++;
@@ -10123,7 +10136,6 @@ exports.interpret =  function(ast) {
 			targetindex--;
 		    }
 		}
-		
 		if  (st.type == "keyword") {
 		    switch(st.children.join('').toLowerCase()) {
 		    case "sk":
@@ -10310,14 +10322,16 @@ var Parser = (function() {
                 new waxeye.Edge(4, 1, false)], false),
             new waxeye.State([], true)], waxeye.FA.PRUNE),
         new waxeye.FA("st", [new waxeye.State([new waxeye.Edge(["C", "c"], 1, false),
-                new waxeye.Edge(["S", "s"], 3, false),
-                new waxeye.Edge(["H", "h"], 4, false)], false),
+                new waxeye.Edge(["S", "s"], 5, false),
+                new waxeye.Edge(["H", "h"], 6, false)], false),
             new waxeye.State([new waxeye.Edge(["H", "h"], 2, false)], false),
+            new waxeye.State([new waxeye.Edge(5, 3, false),
+                new waxeye.Edge(6, 4, false)], false),
+            new waxeye.State([new waxeye.Edge(6, 4, false)], false),
             new waxeye.State([], true),
             new waxeye.State([new waxeye.Edge(["C", "c"], 2, false)], false),
-            new waxeye.State([new waxeye.Edge(["D", "d"], 5, false)], false),
-            new waxeye.State([new waxeye.Edge(["C", "c"], 6, false)], false),
-            new waxeye.State([new waxeye.Edge(6, 2, false)], false)], waxeye.FA.LEFT),
+            new waxeye.State([new waxeye.Edge(["D", "d"], 7, false)], false),
+            new waxeye.State([new waxeye.Edge(["C", "c"], 2, false)], false)], waxeye.FA.LEFT),
         new waxeye.FA("keyword", [new waxeye.State([new waxeye.Edge(["T", "t"], 1, false),
                 new waxeye.Edge(["S", "s"], 5, false),
                 new waxeye.Edge(["I", "i"], 8, false),
@@ -10363,8 +10377,8 @@ module.exports.stitches = stitches;
 
 },{}],9:[function(require,module,exports){
 var swatches = {
-    granite:'Row 1: ch, ch, ch, ch, ch, ch, ch, ch, ch. \nRow 2: ch, sc, sc, sc, sc, sc, sc, sc, sc, sc. \nRow 3: ch, sc, sk, ch, sc, sk, ch, sc, sk, ch, sc, sk, ch, sc. \nRow 4: ch, sc, sc, sk, ch, sc, sk, ch, sc, sk, ch, sc, sc.',
-    griddle:'Row 1: ch, ch, ch, ch, ch, ch, ch, ch, ch. \nRow 2: ch, hdc, sc, hdc, sc, hdc, sc, hdc, sc, hdc. \nRow 3: ch, sc, hdc, sc, hdc, sc, hdc, sc, hdc, sc. \nRow 4: ch, hdc, sc, hdc, sc, hdc, sc, hdc, sc, hdc.'
+    granite:'Row 1: ch9. \nRow 2: ch, sc9. \nRow 3: ch, sc, sk, ch, sc, sk, ch, sc, sk, ch, sc, sk, ch, sc. \nRow 4: ch, sc2, sk, ch, sc, sk, ch, sc, sk, ch, sc2.',
+    griddle:'Row 1: ch9. \nRow 2: ch, hdc, sc, hdc, sc, hdc, sc, hdc, sc, hdc. \nRow 3: ch, sc, hdc, sc, hdc, sc, hdc, sc, hdc, sc. \nRow 4: ch, hdc, sc, hdc, sc, hdc, sc, hdc, sc, hdc.'
 };
 
 module.exports.swatches = swatches;
