@@ -40,6 +40,9 @@ var main = function(){
     $('#griddle').click(function(){
 	$('#pattern-text').val(swatches[ 'griddle']);
     });
+    $('#shells').click(function(){
+	$('#pattern-text').val(swatches[ 'shells']);
+    });
     
     $('#create').click(function(){
 	var text = $('#pattern-text').val();

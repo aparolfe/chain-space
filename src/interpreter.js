@@ -15,10 +15,40 @@ exports.interpret =  function(ast) {
 	if (i !==0) { // all rows except the first row
 	    targetindex = stcount - 1; //make last stitch of last row the target stitch
 	}
-	//at this point, replace any st-num notations in the row with longhand
-	var newcontents=[]; //rewrite into new array because array length might change
+	// replace any st-grp notations with stitches marked as target:same
+	var tempcontents=[]; //rewrite into new array because array length might change
 	for (var j = 0; j < contents.length; j++) { //iterate over row contents
 	    var st = contents[j];
+	    if (st instanceof Object && st.type == "stgrp") { // if st-grp found
+		var group = st.children;
+		group.shift();	//strip parens
+		group.pop();
+		for (var jj=0; jj<group.length-1; jj++) { // iterate over all but the last st in grp
+		    group[jj].target = 'same'; //all but last st marked and pushed
+		    tempcontents.push(group[jj]);
+		}
+		var lastst = group[group.length-1];
+		if (lastst.children[lastst.children.length-1] instanceof Object) { // if lastst is in st-num format
+		    var repnum = parseInt(lastst.children[lastst.children.length-1].children.join(""),10);
+		    lastst.children.pop(); 				 // remove num from end of st
+		    var copyst = JSON.parse(JSON.stringify(lastst)); //copy by value instead of creating a pointer
+		    copyst.target = 'same';
+		    for (var jjj = 0; jjj < repnum - 1; jjj++) { // push num-1 reps of marked st
+			tempcontents.push(copyst);
+		    }
+		    lastst.target = 'next';
+		    console.log(lastst);
+		    tempcontents.push(lastst); // last st pushed is unmarked
+		}
+		else tempcontents.push(lastst); 
+		console.log(tempcontents);
+	    }
+	    else tempcontents.push(st);
+	}
+	// replace any st-num notations in the row with longhand
+	var newcontents=[]; //rewrite into new array because array length might change
+	for (var j = 0; j < tempcontents.length; j++) { //iterate over row contents
+	    var st = tempcontents[j];
 	    if (st instanceof Object && st.type == "st" && st.children[st.children.length-1] instanceof Object) { // if st is in st-num format
 		var strepnum = parseInt(st.children[st.children.length-1].children.join(""),10);
 		st.children.pop(); 				 // remove num from end of st
@@ -53,7 +83,7 @@ exports.interpret =  function(ast) {
 		    if (rownum !== firstrow && node.type !== "ch") { // not first row and not ch
 			links[linkcount] = {source: node, target: nodes[targetindex]};// link to target st
 			linkcount++;
-			targetindex--;
+			if (st.target !== "same") targetindex--; //move target unless next st should be worked in same st
 		    }
 		}
 		if  (st.type == "keyword") {

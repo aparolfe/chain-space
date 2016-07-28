@@ -8,7 +8,7 @@ var ast, patt;
 
 
 describe('Interpreter', function() {
-    describe('# recognize stitches', function () {
+    describe('# recognize primitive stitches', function () {
 	it('should recognize ch', function () {
 	    ast = p.parse("Row 1: ch, Ch, CH.");
 	    // console.log(ast.toString());
@@ -147,6 +147,47 @@ describe('Interpreter', function() {
 	    patt = i.interpret(ast);
 	    assert.equal(patt.connections.length, 22);
 	});
+    });   
+
+    describe('# process stitch groups', function () {
+	it('should parse stitch groups with single stitch', function () {
+	    ast = p.parse("Row 1: ch3. Row 2: ch, sc, (sc), sc.");
+	    //console.log(ast.toString());
+	    patt = i.interpret(ast);
+	    assert.equal(patt.stitches.length, 7);
+	    assert.equal(patt.connections.length, 9);
+	    assert.notEqual(patt.connections[8].target, undefined);
+	});
+	it('should parse stitch groups with multiple longhand stitches', function () {
+	    ast = p.parse("Row 1: ch3. Row 2: ch, sc, (sc, ch, sc), sc.");
+	    //console.log(ast.toString());
+	    patt = i.interpret(ast);
+	    assert.equal(patt.stitches.length, 9);
+	    assert.equal(patt.connections.length, 12);
+	    assert.notEqual(patt.connections[11].target, undefined);
+	});
+	it('should parse stitch groups with single st-num stitch', function () {
+	    ast = p.parse("Row 1: ch3. Row 2: ch, sc, (sc3), sc.");
+	    //console.log(ast.toString());
+	    patt = i.interpret(ast);
+	    console.log(patt.stitches);
+	    console.log(patt.connections);
+	    assert.equal(patt.stitches.length, 9);
+	    assert.equal(patt.connections.length, 13);
+	    assert.notEqual(patt.connections[12].target, undefined);
+	});
+	it('should parse stitch groups with multiple shorthand stitches', function () {
+	    ast = p.parse("Row 1: ch3. Row 2: ch, sc, (sc2, hdc, sc2), sc.");
+	    //console.log(ast.toString());
+	    patt = i.interpret(ast);
+	    console.log(patt.stitches);
+	    console.log(patt.connections);
+	    assert.equal(patt.stitches.length, 11);
+	    assert.equal(patt.connections.length, 17);
+	    assert.notEqual(patt.connections[16].target, undefined);
+	});
     });
+
+
     
 });

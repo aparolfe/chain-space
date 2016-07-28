@@ -9,11 +9,11 @@ patt <- ws row * (ws row)
 # A row/round is a series of expressions starting with keyword "row" or "rnd", or "repeat"?
 row <- "row" ws num ws e *(ws e) ws
 
-# an expression is a stgrp or a repst
-e <= st | keyword 
+# an expression is a st or stgrp or a keyword
+e <= stgrp | st | keyword 
 
-# stgrp is a stitch group defined by the user
-#stgrp <= st *(ws st)
+# stgrp is a group of stitches enclosed in parens. todo- add a way for user-defined stgrps
+stgrp <- ("(") (st) (*(ws st)) (")") ws
 
 # st is a primitive stitch,  possibly followed by a number
 st <- ("ch"|"sc"|"hdc") (?num) ws
