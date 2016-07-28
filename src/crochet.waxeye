@@ -16,12 +16,12 @@ e <= stgrp | st | keyword
 stgrp <- ("(") (st) (*(ws st)) (")") ws
 
 # st is a primitive stitch,  possibly followed by a number
-st <- ("ch"|"sc"|"hdc") (?num) ws
+st <- ("ch"|"sc"|"hdc") (?ws) (?num) ws
 
 # rep is a keyword to repeat either a group of stitches in parens or rows
 
 # keywords tell the interpreter how to make links between stitches
-keyword <- "turn"|"sk"|"skip"|"in"|"next"|"same" ws
+keyword <- "turn"|("skip" (?ws) (?num))|("sk" (?ws) (?num))|"in"|"next"|"same" ws
 
 # numbers- only integers
 num <- +[0-9] ws

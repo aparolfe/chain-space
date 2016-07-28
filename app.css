@@ -180,6 +180,9 @@ textarea {
 }
 
 /* Stitches */
+#stitches {
+    stroke: #000000;
+}
 
 #stitches ul li ul li{
     display:flex;

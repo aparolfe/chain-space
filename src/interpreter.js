@@ -37,11 +37,9 @@ exports.interpret =  function(ast) {
 			tempcontents.push(copyst);
 		    }
 		    lastst.target = 'next';
-		    console.log(lastst);
 		    tempcontents.push(lastst); // last st pushed is unmarked
 		}
 		else tempcontents.push(lastst); 
-		console.log(tempcontents);
 	    }
 	    else tempcontents.push(st);
 	}
@@ -87,17 +85,20 @@ exports.interpret =  function(ast) {
 		    }
 		}
 		if  (st.type == "keyword") {
-		    switch(st.children.join('').toLowerCase()) {
-		    case "sk":
-			targetindex--;
-			break;
-		    case "skip":
-			targetindex--;
-			break;
-		    case "turn":
-			//do nothing until rnd or short row support added
-			break;
+		    var keyword = st.children.join('').toLowerCase();
+		    if (keyword.indexOf("sk") !== -1) { //some sort of skip
+			if (keyword.indexOf("num") !== -1) {
+			    var numskips = keyword.replace(/[^0-9\.]+/g, ""); //find number of skips
+			    targetindex -= numskips;
+			}
+			else { //single skip
+			    targetindex--;
+			}
 		    }
+		    else if  (keyword.indexOf("turn") !== -1) {
+			//do nothing until rnd or short row support added
+		    }
+		    		    
 		}
 		
 	    }

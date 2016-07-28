@@ -4,7 +4,7 @@ var assert = require("assert");
 var parser = require('../parser');
 var p = new parser.Parser();
 var i = require('../interpreter');
-var ast, patt;
+var ast, patt, result;
 
 
 describe('Interpreter', function() {
@@ -83,12 +83,26 @@ describe('Interpreter', function() {
 	    //console.log(patt.stitches);
 	    assert.equal(patt.stitches.length, 3);
 	});
+	it('should correctly interpret a 1-digit number after a stitch and space', function () {
+	    ast = p.parse("Row 1: ch 3.");
+	    //console.log(ast.toString());
+	    patt = i.interpret(ast);	    
+	    //console.log(patt.stitches);
+	    assert.equal(patt.stitches.length, 3);
+	});
 	it('should correctly interpret a 2-digit number after stitch', function () {
 	    ast = p.parse("Row 1: ch20.");
 	    //console.log(ast.toString());
 	    patt = i.interpret(ast);	    
 	    //console.log(patt.stitches);
 	    assert.equal(patt.stitches.length, 20);
+	});
+	it('should correctly interpret a 2-digit number after stitch and space', function () {
+	    ast = p.parse("Row 1: ch 17.");
+	    //console.log(ast.toString());
+	    patt = i.interpret(ast);	    
+	    //console.log(patt.stitches);
+	    assert.equal(patt.stitches.length, 17);
 	});
 	it('should correctly interpret multiple numbers after stitches', function () {
 	    ast = p.parse("Row 1: ch3, ch2, ch3.");
@@ -121,10 +135,44 @@ describe('Interpreter', function() {
 	    assert.equal(patt.stitches.length, 15);
 	});
 	it('should recognize skip', function () {
-	    ast = p.parse("Row 1: sc, sc, sc, sc, sc. \nRow 2: ch, sc, sk, ch, sc, skip, ch, sc. \nRow 3: ch, sc, sc, SKIP, ch, sc, sc.");
-	    // console.log(ast.toString());
+	    ast = p.parse("Row 1: sc5. \nRow 2: ch, sc, skip, ch, sc, sk, ch, sc. \nRow 3: ch, sc, SKIP, ch, sc, ch, SK, sc.");
+	    //console.log(ast.toString());
 	    patt = i.interpret(ast);
 	    assert.equal(patt.stitches.length, 17);
+	    result = { row: 2, st: 2, type: 'sc' };
+	    assert.deepEqual(patt.connections[patt.connections.length-1].target, result);
+	});
+	it('should recognize skip followed by a single-digit number', function () {
+	    ast = p.parse("Row 1: ch7. \nRow 2: ch, sc, sk2, ch2, sc, skip2, ch2, sc. \nRow 3: ch, sc2, SK1, SKIP2, ch, sc2.");
+	    //console.log(ast.toString());
+	    patt = i.interpret(ast);
+	    assert.equal(patt.stitches.length, 21);
+	    result = { row: 2, st: 2, type: 'sc' };
+	    assert.deepEqual(patt.connections[patt.connections.length-1].target, result);
+	});
+	it('should recognize skip followed by a space and a single-digit number', function () {
+	    ast = p.parse("Row 1: ch7. \nRow 2: ch, sc, sk 2, ch2, sc, skip 2, ch2, sc. \nRow 3: ch, sc2, SK 1, SKIP 2, ch, sc2.");
+	    //console.log(ast.toString());
+	    patt = i.interpret(ast);
+	    assert.equal(patt.stitches.length, 21);
+	    result = { row: 2, st: 2, type: 'sc' };
+	    assert.deepEqual(patt.connections[patt.connections.length-1].target, result);
+	});
+	it('should recognize skip followed by a double-digit number', function () {
+	    ast = p.parse("Row 1: ch15. \nRow 2: ch, sc, sk13, ch15, sc. \nRow 3: ch, sc, SKIP15, ch15, sc.");
+	    //console.log(ast.toString());
+	    patt = i.interpret(ast);
+	    assert.equal(patt.stitches.length, 51);
+	    result = { row: 2, st: 2, type: 'sc' };
+	    assert.deepEqual(patt.connections[patt.connections.length-1].target, result);
+	});
+	it('should recognize skip followed by a space and a double-digit number', function () {
+	    ast = p.parse("Row 1: ch15. \nRow 2: ch, sc, sk 13, ch15, sc. \nRow 3: ch, sc, SKIP 15, ch15, sc.");
+	    //console.log(ast.toString());
+	    patt = i.interpret(ast);
+	    assert.equal(patt.stitches.length, 51);
+	    result = { row: 2, st: 2, type: 'sc' };
+	    assert.deepEqual(patt.connections[patt.connections.length-1].target, result);
 	});
     });
     
@@ -170,18 +218,14 @@ describe('Interpreter', function() {
 	    ast = p.parse("Row 1: ch3. Row 2: ch, sc, (sc3), sc.");
 	    //console.log(ast.toString());
 	    patt = i.interpret(ast);
-	    console.log(patt.stitches);
-	    console.log(patt.connections);
 	    assert.equal(patt.stitches.length, 9);
 	    assert.equal(patt.connections.length, 13);
 	    assert.notEqual(patt.connections[12].target, undefined);
 	});
-	it('should parse stitch groups with multiple shorthand stitches', function () {
+	it('should parse stitch groups with multiple st-num stitches', function () {
 	    ast = p.parse("Row 1: ch3. Row 2: ch, sc, (sc2, hdc, sc2), sc.");
 	    //console.log(ast.toString());
 	    patt = i.interpret(ast);
-	    console.log(patt.stitches);
-	    console.log(patt.connections);
 	    assert.equal(patt.stitches.length, 11);
 	    assert.equal(patt.connections.length, 17);
 	    assert.notEqual(patt.connections[16].target, undefined);

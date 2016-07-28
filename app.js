@@ -10117,11 +10117,9 @@ exports.interpret =  function(ast) {
 			tempcontents.push(copyst);
 		    }
 		    lastst.target = 'next';
-		    console.log(lastst);
 		    tempcontents.push(lastst); // last st pushed is unmarked
 		}
 		else tempcontents.push(lastst); 
-		console.log(tempcontents);
 	    }
 	    else tempcontents.push(st);
 	}
@@ -10167,17 +10165,20 @@ exports.interpret =  function(ast) {
 		    }
 		}
 		if  (st.type == "keyword") {
-		    switch(st.children.join('').toLowerCase()) {
-		    case "sk":
-			targetindex--;
-			break;
-		    case "skip":
-			targetindex--;
-			break;
-		    case "turn":
-			//do nothing until rnd or short row support added
-			break;
+		    var keyword = st.children.join('').toLowerCase();
+		    if (keyword.indexOf("sk") !== -1) { //some sort of skip
+			if (keyword.indexOf("num") !== -1) {
+			    var numskips = keyword.replace(/[^0-9\.]+/g, ""); //find number of skips
+			    targetindex -= numskips;
+			}
+			else { //single skip
+			    targetindex--;
+			}
 		    }
+		    else if  (keyword.indexOf("turn") !== -1) {
+			//do nothing until rnd or short row support added
+		    }
+		    		    
 		}
 		
 	    }
@@ -10363,35 +10364,44 @@ var Parser = (function() {
             new waxeye.State([new waxeye.Edge(7, 5, false)], false),
             new waxeye.State([], true)], waxeye.FA.LEFT),
         new waxeye.FA("st", [new waxeye.State([new waxeye.Edge(["C", "c"], 1, false),
-                new waxeye.Edge(["S", "s"], 5, false),
-                new waxeye.Edge(["H", "h"], 6, false)], false),
+                new waxeye.Edge(["S", "s"], 6, false),
+                new waxeye.Edge(["H", "h"], 7, false)], false),
             new waxeye.State([new waxeye.Edge(["H", "h"], 2, false)], false),
-            new waxeye.State([new waxeye.Edge(6, 3, false),
-                new waxeye.Edge(7, 4, false)], false),
-            new waxeye.State([new waxeye.Edge(7, 4, false)], false),
+            new waxeye.State([new waxeye.Edge(7, 3, false),
+                new waxeye.Edge(6, 4, false),
+                new waxeye.Edge(7, 5, false)], false),
+            new waxeye.State([new waxeye.Edge(6, 4, false),
+                new waxeye.Edge(7, 5, false)], false),
+            new waxeye.State([new waxeye.Edge(7, 5, false)], false),
             new waxeye.State([], true),
             new waxeye.State([new waxeye.Edge(["C", "c"], 2, false)], false),
-            new waxeye.State([new waxeye.Edge(["D", "d"], 7, false)], false),
+            new waxeye.State([new waxeye.Edge(["D", "d"], 8, false)], false),
             new waxeye.State([new waxeye.Edge(["C", "c"], 2, false)], false)], waxeye.FA.LEFT),
         new waxeye.FA("keyword", [new waxeye.State([new waxeye.Edge(["T", "t"], 1, false),
                 new waxeye.Edge(["S", "s"], 5, false),
-                new waxeye.Edge(["I", "i"], 8, false),
-                new waxeye.Edge(["N", "n"], 9, false),
-                new waxeye.Edge(["S", "s"], 12, false)], false),
+                new waxeye.Edge(["I", "i"], 11, false),
+                new waxeye.Edge(["N", "n"], 12, false),
+                new waxeye.Edge(["S", "s"], 15, false)], false),
             new waxeye.State([new waxeye.Edge(["U", "u"], 2, false)], false),
             new waxeye.State([new waxeye.Edge(["R", "r"], 3, false)], false),
             new waxeye.State([new waxeye.Edge(["N", "n"], 4, false)], false),
             new waxeye.State([], true),
             new waxeye.State([new waxeye.Edge(["K", "k"], 6, false)], false),
-            new waxeye.State([new waxeye.Edge(["I", "i"], 7, false)], true),
-            new waxeye.State([new waxeye.Edge(["P", "p"], 4, false)], false),
+            new waxeye.State([new waxeye.Edge(["I", "i"], 7, false),
+                new waxeye.Edge(7, 10, false),
+                new waxeye.Edge(6, 4, false)], true),
+            new waxeye.State([new waxeye.Edge(["P", "p"], 8, false)], false),
+            new waxeye.State([new waxeye.Edge(7, 9, false),
+                new waxeye.Edge(6, 4, false)], true),
+            new waxeye.State([new waxeye.Edge(6, 4, false)], true),
+            new waxeye.State([new waxeye.Edge(6, 4, false)], true),
             new waxeye.State([new waxeye.Edge(["N", "n"], 4, false)], false),
-            new waxeye.State([new waxeye.Edge(["E", "e"], 10, false)], false),
-            new waxeye.State([new waxeye.Edge(["X", "x"], 11, false)], false),
+            new waxeye.State([new waxeye.Edge(["E", "e"], 13, false)], false),
+            new waxeye.State([new waxeye.Edge(["X", "x"], 14, false)], false),
             new waxeye.State([new waxeye.Edge(["T", "t"], 4, false)], false),
-            new waxeye.State([new waxeye.Edge(["A", "a"], 13, false)], false),
-            new waxeye.State([new waxeye.Edge(["M", "m"], 14, false)], false),
-            new waxeye.State([new waxeye.Edge(["E", "e"], 15, false)], false),
+            new waxeye.State([new waxeye.Edge(["A", "a"], 16, false)], false),
+            new waxeye.State([new waxeye.Edge(["M", "m"], 17, false)], false),
+            new waxeye.State([new waxeye.Edge(["E", "e"], 18, false)], false),
             new waxeye.State([new waxeye.Edge(7, 4, false)], false)], waxeye.FA.LEFT),
         new waxeye.FA("num", [new waxeye.State([new waxeye.Edge([[48, 57]], 1, false)], false),
             new waxeye.State([new waxeye.Edge([[48, 57]], 1, false),
@@ -10420,7 +10430,7 @@ module.exports.stitches = stitches;
 var swatches = {
     granite:'Row 1: ch9. \nRow 2: ch, sc9. \nRow 3: ch, sc, sk, ch, sc, sk, ch, sc, sk, ch, sc, sk, ch, sc. \nRow 4: ch, sc2, sk, ch, sc, sk, ch, sc, sk, ch, sc2.',
     griddle:'Row 1: ch9. \nRow 2: ch, hdc, sc, hdc, sc, hdc, sc, hdc, sc, hdc. \nRow 3: ch, sc, hdc, sc, hdc, sc, hdc, sc, hdc, sc. \nRow 4: ch, hdc, sc, hdc, sc, hdc, sc, hdc, sc, hdc.',
-    shells:'Row 1: ch9.  \nRow 2: ch, hdc, sk, (hdc3), sk, (hdc3), sk, (hdc3), sk, hdc. \nRow 3: ch, hdc, sk, (hdc3), sk, sk, (hdc3), sk, sk, (hdc3), sk, hdc. \nRow 4: ch, hdc, sk, (hdc3), sk, sk, (hdc3), sk, sk, (hdc3), sk, hdc. \nRow 5: ch, hdc, sk, (hdc3), sk, sk, (hdc3), sk, sk, (hdc3), sk, hdc.'
+    shells:'Row 1: ch9.  \nRow 2: ch, hdc, sk, (hdc3), sk, (hdc3), sk, (hdc3), sk, hdc. \nRow 3: ch, hdc, sk, (hdc3), sk2, (hdc3), sk2, (hdc3), sk, hdc. \nRow 4: ch, hdc, sk, (hdc3), sk2, (hdc3), sk2, (hdc3), sk, hdc. \nRow 5: ch, hdc, sk, (hdc3), sk2, (hdc3), sk2, (hdc3), sk, hdc.'
 };
 
 module.exports.swatches = swatches;
