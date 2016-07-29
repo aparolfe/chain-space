@@ -1,1 +1,4 @@
 node_modules/
+.sass-cache/
+app.css.map
+src/.sass-cache/

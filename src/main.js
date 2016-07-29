@@ -3,6 +3,7 @@
 var $ = require('jquery');
 var d3 = require('d3');
 var filesaver = require('filesaver');
+var seedrandom = require('seedrandom');
 var parser = require('./parser');
 var interpreter = require('./interpreter');
 var swatchlist = require('./swatches');
@@ -46,14 +47,14 @@ var main = function(){
     
     $('#create').click(function(){
 	var text = $('#pattern-text').val();
-	console.log(text);
+	//console.log(text);
 	var ast = p.parse(text);
 	//console.log(ast);
 	var pattern = interpreter.interpret(ast);
 	var nodes = pattern.stitches;
 	var links = pattern.connections;
-	//console.log(nodes);
-	//console.log(links);
+	//console.log(stitchnum);
+	//console.log(rownum);
 	var stitchtypes = {};
 	for (var key in nodes) {
 	    if (nodes[key].type in stitchtypes) { stitchtypes[nodes[key].type]++; }
@@ -75,40 +76,44 @@ var main = function(){
 	frame.selectAll('line').remove();
 	
 	// Create chart (force layout)
+	Math.seedrandom('mySeed');
 	var chart = d3.layout.force()
 	    .nodes(nodes) 
 	    .links(links) 
 	    .size([$('#chart').width(), $('#chart').height()])
 	    .linkDistance(20)
 	    .charge(-100)
-	    .on('tick', tick); //calculate movement
-
-	var link = frame.selectAll('.link') // converting links to svg lines
-	    .data(links)
-	    .enter().append('line')
-	    .attr('class', 'link');
-	//console.log(link);
+	    .on('tick', tick) //calculate movement
+	    .start();
 
 	var node = frame.selectAll('.node') // converting nodes to g blocks 
 	    .data(nodes)
 	    .enter().append('g')
 	    .html( function(d) {return stitches[d.type]})
 	    .attr('class', 'node')
-	    .style('stroke', function(d){if (d.row%2 == 1) return '#000000'; else return '#0000FF'; } )
+	    .style('stroke', function(d){if (d.row%2 == 1) return '#000000'; else return '#0000FF'; } ) // set st color by row
 	    .call(chart.drag);
+
+	var link = frame.selectAll('.link') // converting links to svg lines
+	    .data(links)
+	    .enter().append('line')
+	    .attr('class', 'link');
 	
-	chart.start();
-	console.log(nodes);
-	//console.log(links);
-	function tick() {    
-	    frame.selectAll('.link')
+	var centerrow = (nodes[nodes.length-1].row)/2;
+	function tick(e) {    
+	    frame.selectAll('.link') // move links
 		.attr('x1', function(d) { return d.source.x; })
 		.attr('y1', function(d) { return d.source.y; })
 		.attr('x2', function(d) { return d.target.x; })
 		.attr('y2', function(d) { return d.target.y; });	
-
-	    frame.selectAll('.node')
-		.attr('transform', function(d) { return "translate(" + d.x + "," + d.y + ")"; });
+	    var xstretch = 20 * e.alpha;
+	    var ystretch = 6 * e.alpha;
+	    nodes.forEach(function(d, i) {
+		d.x += (d.row % 2) ? xstretch/d.st: -xstretch/d.st; // x-pull based on row direction and st num
+		d.y += (centerrow-d.row)*ystretch; 			// y-pull based on row
+	    });
+	    frame.selectAll('.node') // move nodes
+	        .attr('transform', function(d) { return "translate(" + d.x + "," + d.y + ")"; });
 	}
 	
 	$('#save').click(function(){
@@ -117,18 +122,6 @@ var main = function(){
 	var blob = new Blob([svgData], {type: "image/svg+xml;charset=utf-8"});
 	filesaver.saveAs(blob, "chart.svg");
 	});
-/*
-
-	    var html = d3.select("#frame")
-        .attr("version", 1.1)
-        .attr("xmlns", "http://www.w3.org/2000/svg")
-        .node().parentNode.innerHTML;
-
-	console.log(html);
-	var imgsrc = 'data:image/svg+xml;base64,'+ btoa(html);
-	var img = '<img src="'+imgsrc+'">'; 
-	d3.select("#enter-pattern").html(img);
-*/
     });
 };
 
