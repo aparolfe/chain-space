@@ -6,7 +6,7 @@
     <title>ChainSpace</title>
     <link href="app.css" rel="stylesheet">
   </head>
-  
+
   <body>
     <div class="row" id="header">
       <a href="#" id="logo"> <span></span> </a>
@@ -16,82 +16,78 @@
 	<div id="faq-button" class="oval-button"> <p> faq </p> </div>
       </div>
     </div>
-    
+
     <div class="main">
-    <div class="row  full-height">
-      
-      <div class="left-column  full-height">
-	<div id = "enter-pattern">
+      <div class="row  full-height">
+	
+	<div class="left-column  full-height">
+	  <div id = "enter-pattern">
 	    <h4>Pattern Text</h4>
-	      <textarea id="pattern-text" placeholder = "Type your pattern here..."></textarea>	
-	      <a class="button" id="create">Create Chart!</a>
-	</div>
-	<div id = "stitches">	
-	  <a class="button" id="save">Save Chart</a>
-	  <h4>Stitches</h4>
-	  <div>
-	    <ul id = "stitches-list">
-	    </ul>
+	    <textarea id="pattern-text" placeholder = "Type your pattern here..."></textarea>	
+	    <a class="button" id="create">Create Chart!</a>
+	  </div>
+	  <div id="stitches">	
+	    <a class="button" id="save">Save Chart</a>
+	    <h4>Stitches</h4>
+	    <div>
+	      <ul id="stitches-list">
+	      </ul>
+	    </div>
 	  </div>
 	</div>
-      </div>
- 
-      <div class="right-column full-height">
-	<div id= "faq">
-	  <h3> No one has asked any questions yet, but here's where they will go...</h3>
-	  <ul>
-	    <li> What can I use these charts for? </li>
-	    <li> What if I want to work offline? </li>
-	    <li> What are your plans for the future? </li>
-	  </ul>
-	</div>
-	<div id= "info">
-	  <h3> How do I use chain-space? </h3>
-	  <p> Enter your own pattern and hit the "Create Chart" button! Here are the rules for the pattern text...</p>
-	  <ul>
-	    <li> Start with "Row" or "Rnd" followed by a number  </li>
-	    <li> Recognized stitches are : ch, sc, hdc </li>
-	    <li> Recognized keywords are : turn, skip </li>
-	    <li> For multiple stitches made in the same stitch, enclose all the stitches in parens </li>
-	  </ul>
-	  <p> Or try loading one of these example swatches: </p>
-	  <ul>
-	    <li class="swatch-link" id="granite"> Granite stitch  </li>
-	    <li class="swatch-link" id = "griddle"> Griddle stitch </li>
-	    <li class="swatch-link" id = "shells"> Shell stitch </li>
-	    <li class="swatch-link" id = "filet"> Filet stitch </li>
-	  </ul>
-	  <p> After you create your chart you'll be able to change the stitch symbols if you want. To reassign the stitch symbols, press the US default or UK default buttons, or press on a given stitch used in the pattern to change the associated symbol. You can save the image in .svg format when you're happy with it.</p>
-	</div>
-	<div id= "about">
-	  <h3> Why does chain-space exist? </h3>
-	  <ul>
-	    <li> Because as a crochet pattern designer I wanted an easier way to create charts </li>
-	    <li> Because as a software engineer I thought this would be a cool project </li>
-	    <li> Because open-source and free software is awesome! </li>
-	  </ul>
-	</div>
-	<div id="chart">
-	  <svg id="frame" class="full-height"><style type="text/css" > <![CDATA[ 
-.stitch {
-    stroke-width:2;
-    stroke-miterlimit:4;
-    stroke-dasharray:none;
-    fill:none;
-    stroke-width:2;
-    stroke-linecap:round;
-    stroke-linejoin:round;
-    stroke-miterlimit:4;
-    stroke-opacity:1;
-    stroke-dasharray:none; 
-}
-.link {
-    stroke: #ccc; 
-} ]]> </style></svg>
-	</div>
-      </div>
 
-    </div>
+	<div class="right-column full-height">
+	  <div id= "faq">
+	    <h3> No one has asked any questions yet, but here's where they will go...</h3>
+	    <ul>
+	      <li> What can I use these charts for? </li>
+	      <li> What if I want to work offline? </li>
+	      <li> What are your plans for the future? </li>
+	    </ul>
+	  </div>
+	  <div id="info">
+	    <h3> How do I use chain-space? </h3>
+	      <p> Enter your own pattern and hit the "Create Chart" button! Here are the rules for the pattern text...</p>
+	      <ul>
+		<li> Start with "Row" or "Rnd" followed by a number  </li>
+		<li> Recognized stitches are : ch, sc, hdc </li>
+		<li> Recognized keywords are : turn, skip </li>
+		<li> For multiple stitches made in the same stitch, enclose all the stitches in parens </li>
+	      </ul>
+	      <p> Or try loading one of these example swatches: </p>
+	      <ul id="swatches-list">
+	      </ul>
+	      <p> After you create your chart you'll be able to change the stitch symbols if you want. To reassign the stitch symbols, press the US default or UK default buttons, or press on a given stitch used in the pattern to change the associated symbol. You can save the image in .svg format when you're happy with it.</p>
+	  </div>
+	  <div id= "about">
+	    <h3> Why does chain-space exist? </h3>
+	    <ul>
+	      <li> Because as a crochet pattern designer I wanted an easier way to create charts </li>
+	      <li> Because as a software engineer I thought this would be a cool project </li>
+	      <li> Because open-source and free software is awesome! </li>
+	    </ul>
+	  </div>
+	  <div id="chart">
+	    <svg id="frame" class="full-height"><style type="text/css" > <![CDATA[ 
+  .stitch {
+  stroke-width:2;
+  stroke-miterlimit:4;
+  stroke-dasharray:none;
+  fill:none;
+  stroke-width:2;
+  stroke-linecap:round;
+  stroke-linejoin:round;
+  stroke-miterlimit:4;
+  stroke-opacity:1;
+  stroke-dasharray:none; 
+  }
+  .link {
+  stroke: #ccc; 
+  } ]]> </style></svg>
+	  </div>
+	</div>
+
+      </div>
     </div>
 
     <script type="text/javascript" src="app.js"></script>

@@ -19,6 +19,14 @@ var main = function(){
     $('.full-height').height($('.main').parent().height());
     $('#pattern-text').height($('.left-column').height()/2);
     $('.right-column').children().toggle(false);
+    //populate examples list, naming convention 'key' in swatches file creates link 'Key stitch' on page
+    for (var key in swatches) {
+	var capkey = key.charAt(0).toUpperCase() + key.slice(1);
+	$('#swatches-list').append('<li class="swatch-link" id="'+ key +'"> ' + capkey + ' stitch </li>');
+	$('#'+key).click(function(){
+	    $('#pattern-text').val(swatches[this.id]);
+	});
+    };
     $('#info').toggle(true);
     $('#stitches').toggle(false);
 
@@ -29,23 +37,10 @@ var main = function(){
 
     $('.button-bar').children().click(function(){
 	$('.right-column').children().toggle(false);
-	//activate the corresponding screen, depends on naming convention 'x-button' being the button for screen 'x'
+	//activate the corresponding screen, naming convention 'x-button' is the button for screen 'x'
 	var buttonid = this.id;
 	var screenid = '#' + buttonid.substring(0, buttonid.length-7);
 	$(screenid).toggle(true); 
-    });
-
-    $('#granite').click(function(){
-	$('#pattern-text').val(swatches[ 'granite']);
-    });
-    $('#griddle').click(function(){
-	$('#pattern-text').val(swatches[ 'griddle']);
-    });
-    $('#shells').click(function(){
-	$('#pattern-text').val(swatches[ 'shells']);
-    });
-    $('#filet').click(function(){
-	$('#pattern-text').val(swatches[ 'filet']);
     });
     
     $('#create').click(function(){
