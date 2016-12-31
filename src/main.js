@@ -44,6 +44,9 @@ var main = function(){
     $('#shells').click(function(){
 	$('#pattern-text').val(swatches[ 'shells']);
     });
+    $('#filet').click(function(){
+	$('#pattern-text').val(swatches[ 'filet']);
+    });
     
     $('#create').click(function(){
 	var text = $('#pattern-text').val();
@@ -63,7 +66,7 @@ var main = function(){
 	//console.log(stitchtypes);
 	$('#stitches-list').html('');
 	for (var key in stitchtypes) {
-	    $('#stitches-list').append('<li><div style="display: inline-block;"><span> ' + key + '</span><div style="display: inline-block;"><svg height="30" width="30"><g transform="translate(15,15)">' +stitches[key] + '</g></svg></div>' + '</div> </li>');
+	    $('#stitches-list').append('<li><div style="display: inline-block; height=50px; width=50px; "><span> ' + key + '</span><div style="display: inline-block;"><svg height="50" width="50"><g transform="translate(15,15)">' +stitches[key] + '</g></svg></div>' + '</div> </li>');
 	};
 	$('#pattern-text').height($('.left-column').height()/3);
 	$('#stitches').toggle(true);

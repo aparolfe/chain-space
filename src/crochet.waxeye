@@ -16,7 +16,7 @@ e <= stgrp | st | keyword
 stgrp <- ("(") (st) (*(ws st)) (")") ws
 
 # st is a primitive stitch,  possibly followed by a number
-st <- ("ch"|"sc"|"hdc") (?ws) (?num) ws
+st <- ("ch"|"sc"|"hdc"|"dc") (?ws) (?num) ws
 
 # rep is a keyword to repeat either a group of stitches in parens or rows
 
