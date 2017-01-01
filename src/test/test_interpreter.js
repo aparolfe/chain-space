@@ -27,6 +27,12 @@ describe('Interpreter', function() {
 	    patt = i.interpret(ast);
 	    assert.equal(patt.stitches.length, 3);
 	});
+	it('should recognize hdc', function () {
+	    ast = p.parse("Row 1: dc, Dc, DC.");
+	    // console.log(ast.toString());
+	    patt = i.interpret(ast);
+	    assert.equal(patt.stitches.length, 3);
+	});
     });
 
     describe('# process multiple stitches', function () {
@@ -149,7 +155,7 @@ describe('Interpreter', function() {
 	    assert.equal(patt.stitches.length, 21);
 	    result = { row: 2, st: 2, type: 'sc' };
 	    assert.deepEqual(patt.connections[patt.connections.length-1].target, result);
-	});
+	}); 
 	it('should recognize skip followed by a space and a single-digit number', function () {
 	    ast = p.parse("Row 1: ch7. \nRow 2: ch, sc, sk 2, ch2, sc, skip 2, ch2, sc. \nRow 3: ch, sc2, SK 1, SKIP 2, ch, sc2.");
 	    //console.log(ast.toString());
@@ -172,6 +178,22 @@ describe('Interpreter', function() {
 	    patt = i.interpret(ast);
 	    assert.equal(patt.stitches.length, 51);
 	    result = { row: 2, st: 2, type: 'sc' };
+	    assert.deepEqual(patt.connections[patt.connections.length-1].target, result);
+	}); 
+	it('should recognize repeat for a row', function () {
+	    ast = p.parse("Row 1: ch5. \nRow 2: ch, sc5. \nRow 3: Rep Row 2. \nRow 4: REP Row 2. \nRow 5: Repeat Row 2. \nRow 6: REPEAT Row 2.");
+	    //console.log(ast.toString());
+	    patt = i.interpret(ast);
+	    assert.equal(patt.stitches.length, 35);
+	    result = { row: 5, st: 2, type: 'sc' };
+	    assert.deepEqual(patt.connections[patt.connections.length-1].target, result);
+	});
+	it('should handle repeating multiple rows recursively', function () {
+	    ast = p.parse("Row 1: ch9. \nRow 2: ch2, dc, (dc, ch, dc), sk2,  (dc, ch, dc), sk2,  (dc, ch, dc), dc. \nRow 3: ch2, dc, sk, (dc, ch, dc), sk2,  (dc, ch, dc), sk2,  (dc, ch, dc), sk, dc. \nRow 4: Rep Row 3. \nRow 5: REP Row 4. \nRow 6: Repeat Row 5. \nRow 7: REPEAT Row 4.");
+	    //console.log(ast.toString());
+	    patt = i.interpret(ast);
+	    assert.equal(patt.stitches.length, 87);
+	    result = { row: 6, st: 3, type: 'dc' };
 	    assert.deepEqual(patt.connections[patt.connections.length-1].target, result);
 	});
     });

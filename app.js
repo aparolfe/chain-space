@@ -11040,10 +11040,27 @@ exports.interpret =  function(ast) {
 	if (i !==0) { // all rows except the first row
 	    targetindex = stcount - 1; //make last stitch of last row the target stitch
 	}
+	// If whole row is repeated, replace with content from the repeated row
+	var repcheck = contents[contents.length-1].children.join('').toLowerCase();
+	if (repcheck.indexOf("rep") !== -1) { //some sort of repeat
+	    if (repcheck.indexOf("row") !== -1) { // repeat a whole row
+		var numreprow = repcheck.replace(/[^0-9\.]+/g, ""); //find number of row to be repeated
+		for (var ii = 0; ii < i; ii++) { //iterate through already-processed rows, checking for number match
+		    var thisrownum = rows[ii].children[3].children[0];
+		    if (thisrownum === numreprow) { 
+			contents.pop();
+			for (var iii = 4; iii<rows[ii].children.length; iii++) {// copy contents of row
+			    var repst =  JSON.parse(JSON.stringify(rows[ii].children[iii])); //copy by value instead of creating a pointer
+			    contents.push(repst);
+			}
+		    }
+		}
+	    }
+	} 
 	// replace any st-grp notations with stitches marked as target:same
 	var tempcontents=[]; //rewrite into new array because array length might change
 	for (var j = 0; j < contents.length; j++) { //iterate over row contents
-	    var st = contents[j];
+	    var st =  JSON.parse(JSON.stringify(contents[j])); //copy by value instead of creating a pointer
 	    if (st instanceof Object && st.type == "stgrp") { // if st-grp found
 		var group = st.children;
 		group.shift();	//strip parens
@@ -11071,7 +11088,7 @@ exports.interpret =  function(ast) {
 	// replace any st-num notations in the row with longhand
 	var newcontents=[]; //rewrite into new array because array length might change
 	for (var j = 0; j < tempcontents.length; j++) { //iterate over row contents
-	    var st = tempcontents[j];
+	    var st =  JSON.parse(JSON.stringify(tempcontents[j])); //copy by value instead of creating a pointer
 	    if (st instanceof Object && st.type == "st" && st.children[st.children.length-1] instanceof Object) { // if st is in st-num format
 		var strepnum = parseInt(st.children[st.children.length-1].children.join(""),10);
 		st.children.pop(); 				 // remove num from end of st
@@ -11112,8 +11129,8 @@ exports.interpret =  function(ast) {
 		if  (st.type == "keyword") {
 		    var keyword = st.children.join('').toLowerCase();
 		    if (keyword.indexOf("sk") !== -1) { //some sort of skip
-			if (keyword.indexOf("num") !== -1) {
-			    var numskips = keyword.replace(/[^0-9\.]+/g, ""); //find number of skips
+			if (st.children[st.children.length-1] instanceof Object) {
+			    var numskips = st.children[st.children.length-1].children.join("");
 			    targetindex -= numskips;
 			}
 			else { //single skip
@@ -11123,7 +11140,7 @@ exports.interpret =  function(ast) {
 		    else if  (keyword.indexOf("turn") !== -1) {
 			//do nothing until rnd or short row support added
 		    }
-		    		    
+
 		}
 		
 	    }
@@ -11317,9 +11334,10 @@ var Parser = (function() {
             new waxeye.State([new waxeye.Edge(["C", "c"], 2, false)], false)], waxeye.FA.LEFT),
         new waxeye.FA("keyword", [new waxeye.State([new waxeye.Edge(["T", "t"], 1, false),
                 new waxeye.Edge(["S", "s"], 5, false),
-                new waxeye.Edge(["I", "i"], 11, false),
-                new waxeye.Edge(["N", "n"], 12, false),
-                new waxeye.Edge(["S", "s"], 15, false)], false),
+                new waxeye.Edge(["R", "r"], 11, false),
+                new waxeye.Edge(["I", "i"], 27, false),
+                new waxeye.Edge(["N", "n"], 28, false),
+                new waxeye.Edge(["S", "s"], 31, false)], false),
             new waxeye.State([new waxeye.Edge(["U", "u"], 2, false)], false),
             new waxeye.State([new waxeye.Edge(["R", "r"], 3, false)], false),
             new waxeye.State([new waxeye.Edge(["N", "n"], 4, false)], false),
@@ -11333,13 +11351,30 @@ var Parser = (function() {
                 new waxeye.Edge(6, 4, false)], true),
             new waxeye.State([new waxeye.Edge(6, 4, false)], true),
             new waxeye.State([new waxeye.Edge(6, 4, false)], true),
+            new waxeye.State([new waxeye.Edge(["E", "e"], 12, false)], false),
+            new waxeye.State([new waxeye.Edge(["P", "p"], 13, false)], false),
+            new waxeye.State([new waxeye.Edge(["E", "e"], 14, false),
+                new waxeye.Edge(7, 22, false)], false),
+            new waxeye.State([new waxeye.Edge(["A", "a"], 15, false)], false),
+            new waxeye.State([new waxeye.Edge(["T", "t"], 16, false)], false),
+            new waxeye.State([new waxeye.Edge(7, 17, false)], false),
+            new waxeye.State([new waxeye.Edge(["R", "r"], 18, false)], false),
+            new waxeye.State([new waxeye.Edge(["O", "o"], 19, false)], false),
+            new waxeye.State([new waxeye.Edge(["W", "w"], 20, false)], false),
+            new waxeye.State([new waxeye.Edge(7, 21, false)], false),
+            new waxeye.State([new waxeye.Edge(6, 4, false)], false),
+            new waxeye.State([new waxeye.Edge(["R", "r"], 23, false)], false),
+            new waxeye.State([new waxeye.Edge(["O", "o"], 24, false)], false),
+            new waxeye.State([new waxeye.Edge(["W", "w"], 25, false)], false),
+            new waxeye.State([new waxeye.Edge(7, 26, false)], false),
+            new waxeye.State([new waxeye.Edge(6, 4, false)], false),
             new waxeye.State([new waxeye.Edge(["N", "n"], 4, false)], false),
-            new waxeye.State([new waxeye.Edge(["E", "e"], 13, false)], false),
-            new waxeye.State([new waxeye.Edge(["X", "x"], 14, false)], false),
+            new waxeye.State([new waxeye.Edge(["E", "e"], 29, false)], false),
+            new waxeye.State([new waxeye.Edge(["X", "x"], 30, false)], false),
             new waxeye.State([new waxeye.Edge(["T", "t"], 4, false)], false),
-            new waxeye.State([new waxeye.Edge(["A", "a"], 16, false)], false),
-            new waxeye.State([new waxeye.Edge(["M", "m"], 17, false)], false),
-            new waxeye.State([new waxeye.Edge(["E", "e"], 18, false)], false),
+            new waxeye.State([new waxeye.Edge(["A", "a"], 32, false)], false),
+            new waxeye.State([new waxeye.Edge(["M", "m"], 33, false)], false),
+            new waxeye.State([new waxeye.Edge(["E", "e"], 34, false)], false),
             new waxeye.State([new waxeye.Edge(7, 4, false)], false)], waxeye.FA.LEFT),
         new waxeye.FA("num", [new waxeye.State([new waxeye.Edge([[48, 57]], 1, false)], false),
             new waxeye.State([new waxeye.Edge([[48, 57]], 1, false),
@@ -11369,8 +11404,9 @@ module.exports.stitches = stitches;
 var swatches = {
     granite:'Row 1: ch9. \nRow 2: ch, sc9. \nRow 3: ch, sc, sk, ch, sc, sk, ch, sc, sk, ch, sc, sk, ch, sc. \nRow 4: ch, sc2, sk, ch, sc, sk, ch, sc, sk, ch, sc2.',
     griddle:'Row 1: ch9. \nRow 2: ch, hdc, sc, hdc, sc, hdc, sc, hdc, sc, hdc. \nRow 3: ch, sc, hdc, sc, hdc, sc, hdc, sc, hdc, sc. \nRow 4: ch, hdc, sc, hdc, sc, hdc, sc, hdc, sc, hdc.',
-    shells:'Row 1: ch9.  \nRow 2: ch, hdc, sk, (hdc3), sk, (hdc3), sk, (hdc3), sk, hdc. \nRow 3: ch, hdc, sk, (hdc3), sk2, (hdc3), sk2, (hdc3), sk, hdc. \nRow 4: ch, hdc, sk, (hdc3), sk2, (hdc3), sk2, (hdc3), sk, hdc. \nRow 5: ch, hdc, sk, (hdc3), sk2, (hdc3), sk2, (hdc3), sk, hdc.',
-    filet: 'Row 1: ch15. \nRow 2: ch2, sk1, dc2, ch3, sk3, dc3, ch3, sk3, dc3. \nRow 3: ch2, sk1 dc5, ch3, sk3, dc6. \nRow 4: ch2, sk1, dc2, ch3, sk3, dc3, ch3, sk3, dc3. \nRow 5: ch2, sk1 dc5, ch3, sk3, dc6.'
+    shells:'Row 1: ch9.  \nRow 2: ch, hdc, sk, (hdc3), sk, (hdc3), sk, (hdc3), sk, hdc. \nRow 3: ch, hdc, sk, (hdc3), sk2, (hdc3), sk2, (hdc3), sk, hdc. \nRow 4: Repeat Row 3. \nRow 5: Repeat Row 3.',
+    filet: 'Row 1: ch15. \nRow 2: ch2, sk1, dc2, ch3, sk3, dc3, ch3, sk3, dc3. \nRow 3: ch2, sk1 dc5, ch3, sk3, dc6. \nRow 4: Rep Row 2. \nRow 5: Rep Row 3.',
+    v: 'Row 1: ch9. \nRow 2: ch2, dc, (dc, ch, dc), sk2,  (dc, ch, dc), sk2,  (dc, ch, dc), dc. \nRow 3: ch2, dc, sk, (dc, ch, dc), sk2,  (dc, ch, dc), sk2,  (dc, ch, dc), sk, dc. \nRow 4: Rep Row 3. \nRow 5: Rep Row 3. \nRow 6: Rep Row 3.'
 };
 
 module.exports.swatches = swatches;

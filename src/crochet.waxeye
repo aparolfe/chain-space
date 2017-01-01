@@ -21,7 +21,7 @@ st <- ("ch"|"sc"|"hdc"|"dc") (?ws) (?num) ws
 # rep is a keyword to repeat either a group of stitches in parens or rows
 
 # keywords tell the interpreter how to make links between stitches
-keyword <- "turn"|("skip" (?ws) (?num))|("sk" (?ws) (?num))|"in"|"next"|"same" ws
+keyword <- "turn"|("skip" (?ws) (?num))|("sk" (?ws) (?num))|("repeat" ws "row" ws num)|("rep" ws "row" ws num)|"in"|"next"|"same" ws
 
 # numbers- only integers
 num <- +[0-9] ws

@@ -15,10 +15,27 @@ exports.interpret =  function(ast) {
 	if (i !==0) { // all rows except the first row
 	    targetindex = stcount - 1; //make last stitch of last row the target stitch
 	}
+	// If whole row is repeated, replace with content from the repeated row
+	var repcheck = contents[contents.length-1].children.join('').toLowerCase();
+	if (repcheck.indexOf("rep") !== -1) { //some sort of repeat
+	    if (repcheck.indexOf("row") !== -1) { // repeat a whole row
+		var numreprow = repcheck.replace(/[^0-9\.]+/g, ""); //find number of row to be repeated
+		for (var ii = 0; ii < i; ii++) { //iterate through already-processed rows, checking for number match
+		    var thisrownum = rows[ii].children[3].children[0];
+		    if (thisrownum === numreprow) { 
+			contents.pop();
+			for (var iii = 4; iii<rows[ii].children.length; iii++) {// copy contents of row
+			    var repst =  JSON.parse(JSON.stringify(rows[ii].children[iii])); //copy by value instead of creating a pointer
+			    contents.push(repst);
+			}
+		    }
+		}
+	    }
+	} 
 	// replace any st-grp notations with stitches marked as target:same
 	var tempcontents=[]; //rewrite into new array because array length might change
 	for (var j = 0; j < contents.length; j++) { //iterate over row contents
-	    var st = contents[j];
+	    var st =  JSON.parse(JSON.stringify(contents[j])); //copy by value instead of creating a pointer
 	    if (st instanceof Object && st.type == "stgrp") { // if st-grp found
 		var group = st.children;
 		group.shift();	//strip parens
@@ -46,7 +63,7 @@ exports.interpret =  function(ast) {
 	// replace any st-num notations in the row with longhand
 	var newcontents=[]; //rewrite into new array because array length might change
 	for (var j = 0; j < tempcontents.length; j++) { //iterate over row contents
-	    var st = tempcontents[j];
+	    var st =  JSON.parse(JSON.stringify(tempcontents[j])); //copy by value instead of creating a pointer
 	    if (st instanceof Object && st.type == "st" && st.children[st.children.length-1] instanceof Object) { // if st is in st-num format
 		var strepnum = parseInt(st.children[st.children.length-1].children.join(""),10);
 		st.children.pop(); 				 // remove num from end of st
@@ -87,8 +104,8 @@ exports.interpret =  function(ast) {
 		if  (st.type == "keyword") {
 		    var keyword = st.children.join('').toLowerCase();
 		    if (keyword.indexOf("sk") !== -1) { //some sort of skip
-			if (keyword.indexOf("num") !== -1) {
-			    var numskips = keyword.replace(/[^0-9\.]+/g, ""); //find number of skips
+			if (st.children[st.children.length-1] instanceof Object) {
+			    var numskips = st.children[st.children.length-1].children.join("");
 			    targetindex -= numskips;
 			}
 			else { //single skip
@@ -98,7 +115,7 @@ exports.interpret =  function(ast) {
 		    else if  (keyword.indexOf("turn") !== -1) {
 			//do nothing until rnd or short row support added
 		    }
-		    		    
+
 		}
 		
 	    }
