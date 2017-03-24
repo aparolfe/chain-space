@@ -47,17 +47,19 @@
 	  </div>
 	  <div id="info">
 	    <h3> How do I use chain-space? </h3>
-	      <p> Enter your own pattern and hit the "Create Chart" button! Here are the rules for the pattern text...</p>
+	      <h4> Enter your own pattern and hit the "Create Chart" button! Here are the rules for the pattern text...</h4>
 	      <ul>
-		<li> Start with "Row" or "Rnd" followed by a number  </li>
-		<li> Recognized stitches are : ch, sc, hdc </li>
-		<li> Recognized keywords are : turn, skip </li>
-		<li> For multiple stitches made in the same stitch, enclose all the stitches in parens </li>
+		<li> Chain-space recognizes instructions in US terminology.  Currently supported stitches are ch, sc, hdc and dc.</li>
+		<li> Start each line with "Row" followed by a number. Each row should have a distinct number. </li>
+		<li> Chain-space assumes that every stitch in the previous row will be worked into. To leave a stitch unworked, use "skip" or "sk". You can skip multiple stitches by adding a number to the end, for example "sk2" or "skip 5".  </li>
+		<li> If you have multiple stitches of the same type made into consecutive stitches of the previous row, you can add that number to the end of the stitch name, like "ch9" or "sc 3". </li>
+		<li> For multiple stitches worked in the same stitch, enclose all the stitches in parenthesis. Eg: "(dc5)" will make a 5-dc fan in the next stitch.</li>
+		<li> If a row is the same as a previous row, you can use "Repeat" or "Rep" to repeat that row, for example "Row 3: Repeat Row 2". </li>
 	      </ul>
-	      <p> Or try loading one of these example swatches: </p>
+	      <h4> Try out these example swatches to get you started: </h4>
 	      <ul id="swatches-list">
 	      </ul>
-	      <p> After you create your chart you'll be able to change the stitch symbols if you want. To reassign the stitch symbols, press the US default or UK default buttons, or press on a given stitch used in the pattern to change the associated symbol. You can save the image in .svg format when you're happy with it.</p>
+	      <h4> After you create your chart you can save the image in SVG format when you're happy with it. Have fun! </h4>
 	  </div>
 	  <div id= "about">
 	    <h3> Why does chain-space exist? </h3>
