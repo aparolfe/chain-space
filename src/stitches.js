@@ -5,4 +5,4 @@ var stitches = {
     dc: '<g class="stitch" type="dc"> <path class="dcpath1" d="m 0,0 0,40"/> <path class="dcpath2" d="m -7,0 14,0" /> <path class="dcpath3" d="m -4,9 8,0" /> </g>'
 };
 
-module.exports.stitches = stitches;
+module.exports = stitches;

@@ -6,4 +6,4 @@ var swatches = {
     v: 'Row 1: ch9. \nRow 2: ch2, dc, (dc, ch, dc), sk2,  (dc, ch, dc), sk2,  (dc, ch, dc), dc. \nRow 3: ch2, dc, sk, (dc, ch, dc), sk2,  (dc, ch, dc), sk2,  (dc, ch, dc), sk, dc. \nRow 4: Rep Row 3. \nRow 5: Rep Row 3. \nRow 6: Rep Row 3.'
 };
 
-module.exports.swatches = swatches;
+module.exports = swatches;

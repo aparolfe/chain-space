@@ -11158,11 +11158,9 @@ var filesaver = require('filesaver');
 var seedrandom = require('seedrandom');
 var parser = require('./parser');
 var interpreter = require('./interpreter');
-var swatchlist = require('./swatches');
-var stitchlist = require('./stitches');
+var swatches = require('./swatches');
+var stitches = require('./stitches');
 var p = new parser.Parser();
-var swatches = swatchlist.swatches;
-var stitches = stitchlist.stitches;
 
 var main = function(){
     'use strict';
@@ -11194,23 +11192,19 @@ var main = function(){
 	var screenid = '#' + buttonid.substring(0, buttonid.length-7);
 	$(screenid).toggle(true); 
     });
-    
+
+    // generate chart when the "Create Chart" button is pressed
     $('#create').click(function(){
 	var text = $('#pattern-text').val();
-	//console.log(text);
 	var ast = p.parse(text);
-	//console.log(ast);
 	var pattern = interpreter.interpret(ast);
 	var nodes = pattern.stitches;
 	var links = pattern.connections;
-	//console.log(stitchnum);
-	//console.log(rownum);
 	var stitchtypes = {};
-	for (var key in nodes) {
+	for (var key in nodes) {	// generate key showing all the stitches used in the pattern
 	    if (nodes[key].type in stitchtypes) { stitchtypes[nodes[key].type]++; }
 	    else { stitchtypes[nodes[key].type] = 0; }
 	};
-	//console.log(stitchtypes);
 	$('#stitches-list').html('');
 	for (var key in stitchtypes) {
 	    $('#stitches-list').append('<li><div style="display: inline-block; height=50px; width=50px; "><span> ' + key + '</span><div style="display: inline-block;"><svg height="50" width="50"><g transform="translate(15,15)">' +stitches[key] + '</g></svg></div>' + '</div> </li>');
@@ -11218,7 +11212,7 @@ var main = function(){
 	$('#pattern-text').height($('.left-column').height()/3);
 	$('#stitches').toggle(true);
 	
-	//Create svg frame and clear any previous chart elements
+	// Create svg frame and clear any previous chart elements
 	$('.right-column').children().toggle(false);
 	$('#chart').toggle(true);
 	var frame = d3.select('#frame');
@@ -11236,7 +11230,7 @@ var main = function(){
 	    .on('tick', tick) //calculate movement
 	    .start();
 
-	var node = frame.selectAll('.node') // converting nodes to g blocks 
+	var node = frame.selectAll('.node') // convert nodes to g blocks 
 	    .data(nodes)
 	    .enter().append('g')
 	    .html( function(d) {return stitches[d.type]})
@@ -11244,7 +11238,7 @@ var main = function(){
 	    .style('stroke', function(d){if (d.row%2 == 1) return '#000000'; else return '#0000FF'; } ) // set st color by row
 	    .call(chart.drag);
 
-	var link = frame.selectAll('.link') // converting links to svg lines
+	var link = frame.selectAll('.link') // convert links to svg lines
 	    .data(links)
 	    .enter().append('line')
 	    .attr('class', 'link');
@@ -11265,7 +11259,7 @@ var main = function(){
 	    frame.selectAll('.node') // move nodes
 	        .attr('transform', function(d) { return "translate(" + d.x + "," + d.y + ")"; });
 	}
-	
+
 	$('#save').click(function(){
 	var svgData = $("#chart").html();
 	console.log(svgData);
@@ -11398,7 +11392,7 @@ var stitches = {
     dc: '<g class="stitch" type="dc"> <path class="dcpath1" d="m 0,0 0,40"/> <path class="dcpath2" d="m -7,0 14,0" /> <path class="dcpath3" d="m -4,9 8,0" /> </g>'
 };
 
-module.exports.stitches = stitches;
+module.exports = stitches;
 
 },{}],17:[function(require,module,exports){
 var swatches = {
@@ -11409,7 +11403,7 @@ var swatches = {
     v: 'Row 1: ch9. \nRow 2: ch2, dc, (dc, ch, dc), sk2,  (dc, ch, dc), sk2,  (dc, ch, dc), dc. \nRow 3: ch2, dc, sk, (dc, ch, dc), sk2,  (dc, ch, dc), sk2,  (dc, ch, dc), sk, dc. \nRow 4: Rep Row 3. \nRow 5: Rep Row 3. \nRow 6: Rep Row 3.'
 };
 
-module.exports.swatches = swatches;
+module.exports = swatches;
 
 },{}],18:[function(require,module,exports){
 
